@@ -1,7 +1,15 @@
+// import NAME without "" because export default
+// no need for {Welcome}
 import ReactDOM from "react-dom";
+// import Registration from "./registration";
+import Welcome from "./welcome";
 
-ReactDOM.render(<HelloWorld />, document.querySelector("main"));
-
-function HelloWorld() {
-    return <div>Hello, World!</div>;
+let elem;
+if (location.pathname == "/welcome") {
+    elem = <Welcome />;
+} else {
+    elem = <p>Main Page</p>;
 }
+
+// below can render only 1 component at a time
+ReactDOM.render(elem, document.querySelector("main"));
