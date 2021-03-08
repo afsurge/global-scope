@@ -23,7 +23,7 @@ export default class Registration extends React.Component {
         axios
             .post("/registration", this.state)
             .then(({ data }) => {
-                if (OK) {
+                if (data.success) {
                     // redirect
                     location.replace("/");
                 } else {
