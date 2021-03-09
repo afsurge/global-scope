@@ -8,7 +8,7 @@ let elem;
 if (location.pathname == "/welcome") {
     elem = <Welcome />;
 } else {
-    elem = <p>Main Page</p>;
+    elem = <img src="./icon.png" />;
 }
 
 // below can render only 1 component at a time

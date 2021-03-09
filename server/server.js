@@ -5,14 +5,21 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const db = require("./db");
 const { hash, compare } = require("./utils/bc");
+const csurf = require("csurf");
 
 //// middlewares ////
+
 app.use(
     cookieSession({
         secret: `I love to eat.`,
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+app.use(csurf());
+app.use(function (req, res, next) {
+    res.cookie("dtoken", req.csrfToken());
+    next();
+});
 app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
@@ -69,6 +76,32 @@ app.post("/registration", (req, res) => {
         })
         .catch((err) => {
             console.log("Error with hashing password:", err.message);
+        });
+});
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    if (email == "" || password == "") {
+        return res.json({ success: false });
+    }
+    db.getUser(email)
+        .then(({ rows }) => {
+            console.log(rows);
+            const hashpass = rows[0].hashpass;
+            const id = rows[0].id;
+            compare(password, hashpass).then((match) => {
+                if (match) {
+                    req.session.userId = id;
+                    res.json({ success: true });
+                } else {
+                    console.log("Password does not match!");
+                    return res.json({ success: false });
+                }
+            });
+        })
+        .catch((err) => {
+            console.log("Error getting user info at login:", err.message);
+            return res.json({ success: false });
         });
 });
 

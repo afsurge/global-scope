@@ -14,3 +14,13 @@ module.exports.addUser = (first, last, email, hashpass) => {
     const params = [first, last, email, hashpass];
     return db.query(q, params);
 };
+
+module.exports.getUser = (email) => {
+    const q = `
+    SELECT *
+    FROM users
+    WHERE email = $1
+    `;
+    const params = [email];
+    return db.query(q, params);
+};
