@@ -6,6 +6,8 @@ const cookieSession = require("cookie-session");
 const db = require("./db");
 const { hash, compare } = require("./utils/bc");
 const csurf = require("csurf");
+const crs = require("crypto-random-string");
+const ses = require("./ses");
 
 //// middlewares ////
 
@@ -86,7 +88,7 @@ app.post("/login", (req, res) => {
     }
     db.getUser(email)
         .then(({ rows }) => {
-            console.log(rows);
+            // console.log(rows);
             const hashpass = rows[0].hashpass;
             const id = rows[0].id;
             compare(password, hashpass).then((match) => {
@@ -102,6 +104,78 @@ app.post("/login", (req, res) => {
         .catch((err) => {
             console.log("Error getting user info at login:", err.message);
             return res.json({ success: false });
+        });
+});
+
+app.post("/pass/reset/start", (req, res) => {
+    const { email } = req.body;
+    const dCode = crs({ length: 6 });
+    if (email == null) {
+        return res.json({ success: false });
+    }
+
+    db.addCode(email, dCode)
+        .then(() => {
+            ses.sendEmail(
+                "abrarfaisal20@gmail.com",
+                "Your secret code: " + dCode,
+                "Reset user password for your SocialNetwork Spiced project"
+            )
+                .then(() => {
+                    console.log("It worked, email sent!");
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log("Error in sending email:", err.message);
+                    res.json({ success: false });
+                });
+        })
+        .catch((err) => {
+            console.log("Error in adding secret code:", err.message);
+            // res.json({ success: false });
+        });
+});
+
+app.post("/pass/reset/verify", (req, res) => {
+    // console.log("req.body in reset verify:", req.body);
+    const { code, email, newpass } = req.body;
+    if (code == null || newpass == null) {
+        return res.json({ success: false });
+    }
+
+    db.getCode(email)
+        .then(({ rows }) => {
+            if (rows[0].dcode == code) {
+                hash(newpass)
+                    .then((hashedpass) => {
+                        db.updatePass(hashedpass, email)
+                            .then(() => {
+                                console.log("Password updated!");
+                                res.json({ success: true });
+                            })
+                            .catch((err) => {
+                                console.log(
+                                    "Error updating password:",
+                                    err.message
+                                );
+                            });
+                        console.log("Hashed reset pass!");
+                    })
+                    .catch((err) => {
+                        console.log(
+                            "Error hashing reset password:",
+                            err.message
+                        );
+                    });
+                console.log("Secret code matched!");
+            } else {
+                console.log("Secret code does not match!");
+                res.json({ success: false });
+            }
+        })
+        .catch((err) => {
+            console.log("Error checking secret code:", err.message);
+            res.json({ success: false });
         });
 });
 

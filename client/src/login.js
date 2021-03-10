@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 
 export default class Login extends React.Component {
     constructor() {
@@ -23,6 +24,7 @@ export default class Login extends React.Component {
             })
             .catch((err) => {
                 console.log("Error in axios POST /login:", err.message);
+                this.setState({ error: true });
             });
     }
 
@@ -30,10 +32,9 @@ export default class Login extends React.Component {
         this.setState(
             {
                 [e.target.name]: e.target.value,
-            },
-            () => console.log("this.state after setState:", this.state)
+            }
+            // () => console.log("this.state after setState:", this.state)
         );
-        // console.log("this.state after setState:", this.state);
     }
 
     render() {
@@ -53,6 +54,7 @@ export default class Login extends React.Component {
                     onChange={(e) => this.handleChange(e)}
                 />
                 <button onClick={() => this.handleClick()}>LOGIN</button>
+                <Link to="/resetpass">RESET PASSWORD</Link>
             </div>
         );
     }

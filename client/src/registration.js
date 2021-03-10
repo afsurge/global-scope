@@ -47,8 +47,8 @@ export default class Registration extends React.Component {
         this.setState(
             {
                 [e.target.name]: e.target.value,
-            },
-            () => console.log("this.state after setState:", this.state)
+            }
+            // () => console.log("this.state after setState:", this.state)
         );
         // console.log("this.state after setState:", this.state);
     }
@@ -80,7 +80,7 @@ export default class Registration extends React.Component {
                     onChange={(e) => this.handleChange(e)}
                 />
                 <button onClick={() => this.handleClick()}>SIGN UP!</button>
-                <Link to="/login">Click here to Log in!</Link>
+                <Link to="/login">LOG IN!</Link>
             </div>
         );
     }
