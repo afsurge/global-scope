@@ -179,6 +179,11 @@ app.post("/pass/reset/verify", (req, res) => {
         });
 });
 
+app.get("/user", (req, res) => {
+    const id = req.session.userId;
+    console.log("id of logged in user:", id);
+});
+
 //// routes ////
 
 //// listen ////
