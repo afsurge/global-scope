@@ -8,6 +8,32 @@ const { hash, compare } = require("./utils/bc");
 const csurf = require("csurf");
 const crs = require("crypto-random-string");
 const ses = require("./ses");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
+const config = require("./config.json");
+
+//// for S3 upload ////
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+
+//// for S3 upload ////
 
 //// middlewares ////
 
@@ -155,14 +181,30 @@ app.post("/pass/reset/verify", (req, res) => {
 });
 
 app.get("/user", (req, res) => {
-    const id = req.session.userId;
+    const userId = req.session.userId;
     // console.log("id of logged in user:", id);
-    db.getLoggedUser(id)
+    db.getLoggedUser(userId)
         .then(({ rows }) => {
             res.json({ rows });
         })
         .catch((err) => {
             console.log("Error getting logged in user:", err.message);
+        });
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const userId = req.session.userId;
+    // console.log("profile pic uploaded by user id:", userId);
+    const { filename } = req.file;
+    const fullUrl = config.s3Url + filename;
+    // console.log("fullUrl:", fullUrl);
+    db.updateImg(fullUrl, userId)
+        .then(() => {
+            console.log("profile pic link added to database!");
+            res.json({ imgUrl: fullUrl });
+        })
+        .catch((err) => {
+            console.log("Error updating profile pic:", err.message);
         });
 });
 

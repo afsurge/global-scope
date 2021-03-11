@@ -24,7 +24,7 @@ export default class App extends Component {
             this.setState({
                 first: loggedUser.first,
                 last: loggedUser.last,
-                imgUrl: loggedUser.imgUrl,
+                imgUrl: loggedUser.imgurl,
             });
             // console.log("data received about logged in user:", loggedUser);
         });
@@ -37,28 +37,36 @@ export default class App extends Component {
         });
     }
 
-    methodInApp(arg) {
-        console.log("I'm running in App! My argument is:", arg);
+    uploaderInApp(imgUrlFromUploader) {
+        console.log(
+            "Received imgUrl in App from Uploader:",
+            imgUrlFromUploader
+        );
+        this.setState({
+            imgUrl: imgUrlFromUploader,
+            showUploader: !this.state.showUploader,
+        });
     }
 
     render() {
         return (
-            <div>
-                <h1>Hello {this.state.first}!</h1>
-
+            <div id="mainAppContainer">
+                <div className="appTop">
+                    <img id="logo" src="icon.png" />
+                </div>
                 <ProfilePic
                     first={this.state.first}
                     last={this.state.last}
                     imgUrl={this.state.imgUrl}
                     toggleUploader={() => this.toggleUploader()}
                 />
-
-                {/* <h2 onClick={() => this.toggleUploader()}>
-                    Click here! Changing showUploader state with a method!
-                </h2> */}
+                <h1>Hello {this.state.first}!</h1>
 
                 {this.state.showUploader && (
-                    <Uploader methodInApp={this.methodInApp} />
+                    <Uploader
+                        uploaderInApp={(imgUrl) => this.uploaderInApp(imgUrl)}
+                        toggleUploader={() => this.toggleUploader()}
+                    />
                 )}
             </div>
         );

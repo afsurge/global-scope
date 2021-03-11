@@ -7,12 +7,13 @@ CREATE TABLE users (
     last VARCHAR NOT NULL CHECK (last <> ''),
     email VARCHAR NOT NULL UNIQUE CHECK (email <> ''),
     hashpass VARCHAR NOT NULL CHECK (hashpass <> ''),
+    imgurl TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE resetcodes (
     id SERIAL PRIMARY KEY,
-    user_email VARCHAR NOT NULL UNIQUE REFERENCES users(email),
+    user_email VARCHAR NOT NULL REFERENCES users(email),
     dcode VARCHAR NOT NULL CHECK (dcode <> ''),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -28,7 +28,7 @@ module.exports.getUser = (email) => {
 // have to update with imgUrl in table
 module.exports.getLoggedUser = (id) => {
     const q = `
-    SELECT first, last
+    SELECT first, last, imgurl
     FROM users
     WHERE id = $1
     `;
@@ -63,5 +63,15 @@ module.exports.updatePass = (hashedpass, email) => {
     WHERE email = $2
     `;
     const params = [hashedpass, email];
+    return db.query(q, params);
+};
+
+module.exports.updateImg = (imgUrl, userId) => {
+    const q = `
+    UPDATE users
+    SET imgurl = $1
+    WHERE id = $2
+    `;
+    const params = [imgUrl, userId];
     return db.query(q, params);
 };

@@ -5,15 +5,15 @@ export default function ProfilePic(props) {
     // console.log("Props in profile pic:", props);
 
     return (
-        <div id="profilepic">
+        <div id="profilepic" className="appTop">
             <img
-                id="profilepic"
+                className="smallppic"
                 src={imgUrl}
                 alt={props.last}
                 onClick={props.toggleUploader}
             />
-            <h3>First Name: {props.first}</h3>
-            <h3>Last Name: {props.last}</h3>
+            {/* <h3>First Name: {props.first}</h3>
+            <h3>Last Name: {props.last}</h3> */}
         </div>
     );
 }
