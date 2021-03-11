@@ -60,13 +60,18 @@ export default class App extends Component {
                     imgUrl={this.state.imgUrl}
                     toggleUploader={() => this.toggleUploader()}
                 />
+
                 <h1>Hello {this.state.first}!</h1>
 
                 {this.state.showUploader && (
-                    <Uploader
-                        uploaderInApp={(imgUrl) => this.uploaderInApp(imgUrl)}
-                        toggleUploader={() => this.toggleUploader()}
-                    />
+                    <div id="uploaderContainer">
+                        <Uploader
+                            uploaderInApp={(imgUrl) =>
+                                this.uploaderInApp(imgUrl)
+                            }
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    </div>
                 )}
             </div>
         );
