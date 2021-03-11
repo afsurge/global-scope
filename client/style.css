@@ -1,10 +1,11 @@
 * {
     font-family: "Courier New", Courier, monospace;
+    color: white;
     /* margin: 0; */
 }
 
 body {
-    background-color: rgb(90, 90, 90);
+    background-color: #2e3440;
 }
 
 #logo {
@@ -13,7 +14,7 @@ body {
 
 #uploader {
     position: fixed;
-    background-color: black;
+    background-color: #434c5e;
     color: rgb(90, 90, 90);
     width: 550px;
     height: 150px;
@@ -25,6 +26,13 @@ body {
     height: 50px;
     object-fit: cover;
     float: right;
+}
+
+.largeppic {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    /* float: right; */
 }
 
 .appTop {
@@ -45,6 +53,29 @@ body {
     width: 100%;
     height: 100%;
     /* z-index: -1; */
+}
+
+#greetuser {
+    width: 100%;
+}
+
+#profile {
+    display: flex;
+}
+
+#bioeditor {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    background-color: #88c0d0;
+    color: #2e3440;
+    font-size: 1.2em;
+}
+
+textarea {
+    color: #2e3440;
 }
 
 /* .spiced {

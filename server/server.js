@@ -208,6 +208,12 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         });
 });
 
+app.post("/bio", (req, res) => {
+    const userId = req.session.userId;
+    const { bio } = req.body;
+    console.log("Bio received by server:", bio);
+});
+
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url
     if (req.session.userId) {

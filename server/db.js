@@ -75,3 +75,13 @@ module.exports.updateImg = (imgUrl, userId) => {
     const params = [imgUrl, userId];
     return db.query(q, params);
 };
+
+module.exports.updateBio = (bio, userId) => {
+    const q = `
+    UPDATE users
+    SET bio = $1
+    WHERE id = $2
+    `;
+    const params = [bio, userId];
+    return db.query(q, params);
+};

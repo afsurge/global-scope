@@ -5,9 +5,9 @@ export default function ProfilePic(props) {
     // console.log("Props in profile pic:", props);
 
     return (
-        <div id="profilepic" className="appTop">
+        <div id="profilepic" className={props.class1}>
             <img
-                className="smallppic"
+                className={props.class2}
                 src={imgUrl}
                 alt={props.last}
                 onClick={props.toggleUploader}

@@ -23,7 +23,6 @@ export default class Uploader extends Component {
     uploader() {
         var formData = new FormData();
         formData.append("file", this.file);
-        var self = this;
         axios
             .post("/upload", formData)
             .then((response) => {

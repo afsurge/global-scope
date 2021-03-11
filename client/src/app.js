@@ -1,5 +1,6 @@
 import { Component } from "react";
 import axios from "./axios";
+import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 
@@ -10,6 +11,7 @@ export default class App extends Component {
             first: "",
             last: "",
             imgUrl: "",
+            bio: null,
             showUploader: false,
         };
     }
@@ -25,6 +27,7 @@ export default class App extends Component {
                 first: loggedUser.first,
                 last: loggedUser.last,
                 imgUrl: loggedUser.imgurl,
+                bio: loggedUser.bio,
             });
             // console.log("data received about logged in user:", loggedUser);
         });
@@ -48,6 +51,10 @@ export default class App extends Component {
         });
     }
 
+    updateBioInApp(bioFromBioEditor) {
+        console.log("Received bio in App from BioEditor:", bioFromBioEditor);
+    }
+
     render() {
         return (
             <div id="mainAppContainer">
@@ -55,14 +62,20 @@ export default class App extends Component {
                     <img id="logo" src="icon.png" />
                 </div>
                 <ProfilePic
-                    first={this.state.first}
-                    last={this.state.last}
                     imgUrl={this.state.imgUrl}
                     toggleUploader={() => this.toggleUploader()}
+                    class1="appTop"
+                    class2="smallppic"
                 />
-
-                <h1>Hello {this.state.first}!</h1>
-
+                <h1 id="greetuser">Hi {this.state.first}!</h1>
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    bio={this.state.bio}
+                    imgUrl={this.state.imgUrl}
+                    toggleUploader={() => this.toggleUploader()}
+                    updateBioInApp={(bio) => this.updateBioInApp(bio)}
+                />
                 {this.state.showUploader && (
                     <div id="uploaderContainer">
                         <Uploader
