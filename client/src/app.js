@@ -7,18 +7,27 @@ export default class App extends Component {
     constructor() {
         super();
         this.state = {
-            first: "Abrar",
-            last: "Faisal",
+            first: "",
+            last: "",
+            imgUrl: "",
             showUploader: false,
         };
     }
 
     componentDidMount() {
-        console.log("App mounted");
-        // here is where we want to make an axios request to 'get' info about logged in user (first name, last name, and profilePicUrl / imageUrl)
-        // an axios route '/user' is a good path for it
-        // when we have the info from the server, add it to the state of the component (i.e. setState)
-        axios.get("/user");
+        // console.log("App mounted");
+        // axios request to 'get' info about logged in user (first, last, profilePicUrl/imageUrl)
+        // axios route '/user' is good choice
+        // add received info to state of the component (setState)
+        axios.get("/user").then(({ data }) => {
+            const loggedUser = data.rows[0];
+            this.setState({
+                first: loggedUser.first,
+                last: loggedUser.last,
+                imgUrl: loggedUser.imgUrl,
+            });
+            // console.log("data received about logged in user:", loggedUser);
+        });
     }
 
     toggleUploader() {

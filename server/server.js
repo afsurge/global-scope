@@ -29,31 +29,6 @@ app.use(express.json());
 
 //// routes ////
 
-app.get("/welcome", (req, res) => {
-    // if user puts /welcome in url
-    if (req.session.userId) {
-        // if logged in - not allowed to see welcome page
-        // redirect away from /welcome or / to page allowed to see
-        res.redirect("/");
-    } else {
-        // send back HTML - will trigger start.js to render Welcome in DOM
-        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    }
-});
-
-app.get("*", (req, res) => {
-    // runs for any route except /welcome
-    if (!req.session.userId) {
-        // if not logged in - redirect to /welcome
-        // only page allowed
-        res.redirect("/welcome");
-    } else {
-        // this if user logged in
-        // send back HTML - start.js kicks in and renders <p>
-        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    }
-});
-
 app.post("/registration", (req, res) => {
     const { first, last, email, password } = req.body;
 
@@ -181,7 +156,39 @@ app.post("/pass/reset/verify", (req, res) => {
 
 app.get("/user", (req, res) => {
     const id = req.session.userId;
-    console.log("id of logged in user:", id);
+    // console.log("id of logged in user:", id);
+    db.getLoggedUser(id)
+        .then(({ rows }) => {
+            res.json({ rows });
+        })
+        .catch((err) => {
+            console.log("Error getting logged in user:", err.message);
+        });
+});
+
+app.get("/welcome", (req, res) => {
+    // if user puts /welcome in url
+    if (req.session.userId) {
+        // if logged in - not allowed to see welcome page
+        // redirect away from /welcome or / to page allowed to see
+        res.redirect("/");
+    } else {
+        // send back HTML - will trigger start.js to render Welcome in DOM
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
+});
+
+app.get("*", (req, res) => {
+    // runs for any route except /welcome
+    if (!req.session.userId) {
+        // if not logged in - redirect to /welcome
+        // only page allowed
+        res.redirect("/welcome");
+    } else {
+        // this if user logged in
+        // send back HTML - start.js kicks in and renders <p>
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
 });
 
 //// routes ////

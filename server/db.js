@@ -25,6 +25,17 @@ module.exports.getUser = (email) => {
     return db.query(q, params);
 };
 
+// have to update with imgUrl in table
+module.exports.getLoggedUser = (id) => {
+    const q = `
+    SELECT first, last
+    FROM users
+    WHERE id = $1
+    `;
+    const params = [id];
+    return db.query(q, params);
+};
+
 module.exports.addCode = (email, dcode) => {
     const q = `
         INSERT INTO resetcodes (user_email, dcode)
