@@ -51,6 +51,7 @@ app.use(function (req, res, next) {
 app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(express.json());
+
 //// middlewares ////
 
 //// routes ////
@@ -211,7 +212,14 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 app.post("/bio", (req, res) => {
     const userId = req.session.userId;
     const { bio } = req.body;
-    console.log("Bio received by server:", bio);
+    console.log("Received bio by server:", bio);
+    db.updateBio(bio, userId)
+        .then(() => {
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.log("Error updating bio (server):", err.message);
+        });
 });
 
 app.get("/welcome", (req, res) => {

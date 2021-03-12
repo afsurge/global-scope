@@ -28,7 +28,7 @@ module.exports.getUser = (email) => {
 // have to update with imgUrl in table
 module.exports.getLoggedUser = (id) => {
     const q = `
-    SELECT first, last, imgurl
+    SELECT first, last, imgurl, bio
     FROM users
     WHERE id = $1
     `;

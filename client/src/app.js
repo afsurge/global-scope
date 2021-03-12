@@ -18,19 +18,28 @@ export default class App extends Component {
 
     componentDidMount() {
         // console.log("App mounted");
-        // axios request to 'get' info about logged in user (first, last, profilePicUrl/imageUrl)
+        // axios request to 'get' info about logged in user (first, last, imageUrl, bio)
         // axios route '/user' is good choice
         // add received info to state of the component (setState)
-        axios.get("/user").then(({ data }) => {
-            const loggedUser = data.rows[0];
-            this.setState({
-                first: loggedUser.first,
-                last: loggedUser.last,
-                imgUrl: loggedUser.imgurl,
-                bio: loggedUser.bio,
+        axios
+            .get("/user")
+            .then(({ data }) => {
+                const loggedUser = data.rows[0];
+                this.setState({
+                    first: loggedUser.first,
+                    last: loggedUser.last,
+                    imgUrl: loggedUser.imgurl,
+                    bio: loggedUser.bio,
+                });
+                // console.log(
+                //     "data received and updated about logged in user:",
+                //     this.state
+                // );
+            })
+            .catch((err) => {
+                "Error getting user info:", err.message;
             });
-            // console.log("data received about logged in user:", loggedUser);
-        });
+        // console.log("this.state after getting logged user info:", this.state);
     }
 
     toggleUploader() {
@@ -56,6 +65,14 @@ export default class App extends Component {
     }
 
     render() {
+        // if check to not render/return too early
+        // renders after axios req for logged in user info is completed
+        // ie. this.state.first or others in this.state have values
+        // after which render/return occurs!
+        if (!this.state.first) {
+            return null;
+            // can use "Loading..." or gif instead of "null"
+        }
         return (
             <div id="mainAppContainer">
                 <div className="appTop">

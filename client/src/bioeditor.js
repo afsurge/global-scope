@@ -13,6 +13,7 @@ export default class BioEditor extends Component {
     }
 
     componentDidMount() {
+        console.log("Bio in BioEditor:", this.props.bio);
         if (this.props.bio) {
             this.setState({
                 buttonTxt: "EDIT",
@@ -39,21 +40,33 @@ export default class BioEditor extends Component {
     }
 
     updateBio() {
-        // console.log(this.state.bioDraft);
-        // axios
-        //     .post("/bio", this.state.bioText)
-        //     .then(() => {})
-        //     .catch((err) => {
-        //         console.log(
-        //             "Error adding bio to database (axios):",
-        //             err.message
-        //         );
-        //     });
-        this.setState({
-            bioText: this.state.bioDraft,
-            edit: false,
-        });
-        this.props.updateBioInApp(this.state.bioDraft);
+        console.log("Bio to send to server:", this.state.bioDraft);
+
+        if (this.state.bioDraft == "") {
+            return this.setState({ edit: false });
+        }
+
+        axios
+            .post("/bio", { bio: this.state.bioDraft })
+            .then((response) => {
+                console.log(
+                    "Response from server after Bio update:",
+                    response.data
+                );
+                if (response.data.success) {
+                    this.setState({
+                        bioText: this.state.bioDraft,
+                        edit: false,
+                    });
+                    this.props.updateBioInApp(this.state.bioDraft);
+                }
+            })
+            .catch((err) => {
+                console.log(
+                    "Error adding bio to database (axios):",
+                    err.message
+                );
+            });
     }
 
     render() {
@@ -66,11 +79,19 @@ export default class BioEditor extends Component {
                         onChange={(e) => this.handleChange(e)}
                     />
                 )}
-                <button onClick={() => this.handleClick()}>
+                <button
+                    className="bioButtons"
+                    onClick={() => this.handleClick()}
+                >
                     {this.state.buttonTxt}
                 </button>
                 {this.state.edit && (
-                    <button onClick={() => this.updateBio()}>SAVE</button>
+                    <button
+                        className="bioButtons"
+                        onClick={() => this.updateBio()}
+                    >
+                        SAVE
+                    </button>
                 )}
                 {/* {this.state.edit && <button>CLEAR</button>} */}
             </div>

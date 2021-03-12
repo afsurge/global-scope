@@ -8,7 +8,7 @@ CREATE TABLE users (
     email VARCHAR NOT NULL UNIQUE CHECK (email <> ''),
     hashpass VARCHAR NOT NULL CHECK (hashpass <> ''),
     imgurl TEXT,
-    bio TEXT NOT NULL,
+    bio TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
