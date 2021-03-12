@@ -3,6 +3,8 @@ import axios from "./axios";
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
+import OtherProfile from "./otherprofile";
+import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends Component {
     constructor() {
@@ -65,8 +67,8 @@ export default class App extends Component {
     }
 
     render() {
-        // if check to not render/return too early
-        // renders after axios req for logged in user info is completed
+        // if-check to not render/return too early
+        // renders after axios req for logged in user is completed
         // ie. this.state.first or others in this.state have values
         // after which render/return occurs!
         if (!this.state.first) {
@@ -85,14 +87,35 @@ export default class App extends Component {
                     class2="smallppic"
                 />
                 <h1 id="greetuser">Hi {this.state.first}!</h1>
-                <Profile
+                <BrowserRouter>
+                    <div>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    bio={this.state.bio}
+                                    imgUrl={this.state.imgUrl}
+                                    toggleUploader={() => this.toggleUploader()}
+                                    updateBioInApp={(bio) =>
+                                        this.updateBioInApp(bio)
+                                    }
+                                />
+                            )}
+                        />
+                        <Route path="/user/:id" component={OtherProfile} />
+                    </div>
+                </BrowserRouter>
+                {/* <Profile
                     first={this.state.first}
                     last={this.state.last}
                     bio={this.state.bio}
                     imgUrl={this.state.imgUrl}
                     toggleUploader={() => this.toggleUploader()}
                     updateBioInApp={(bio) => this.updateBioInApp(bio)}
-                />
+                /> */}
                 {this.state.showUploader && (
                     <div id="uploaderContainer">
                         <Uploader

@@ -91,6 +91,10 @@ button {
     align-self: flex-end;
 }
 
+#otherProfile {
+    display: flex;
+}
+
 textarea,
 input {
     color: #2e3440;
