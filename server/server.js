@@ -238,6 +238,11 @@ app.get("/user/:id.json", (req, res) => {
         });
 });
 
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/");
+});
+
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url
     if (req.session.userId) {

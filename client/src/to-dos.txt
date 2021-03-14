@@ -3,7 +3,8 @@ Part2: done
 Part3: done
 Part4: done
 Part5: done
+Part6: done
 
-Part6:
+MISC:
     - Broken logo (icon.png) and close (X) for OtherProfile
     - CSS!
