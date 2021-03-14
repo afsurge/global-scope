@@ -15,7 +15,7 @@ module.exports.addUser = (first, last, email, hashpass) => {
     return db.query(q, params);
 };
 
-module.exports.getUser = (email) => {
+module.exports.getUserByEmail = (email) => {
     const q = `
     SELECT *
     FROM users
@@ -26,7 +26,7 @@ module.exports.getUser = (email) => {
 };
 
 // have to update with imgUrl in table
-module.exports.getUser = (id) => {
+module.exports.getUserById = (id) => {
     const q = `
     SELECT first, last, imgurl, bio
     FROM users

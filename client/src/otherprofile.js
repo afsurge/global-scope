@@ -20,8 +20,15 @@ export default class OtherProfile extends Component {
             .get("/user/:" + otherId + ".json")
             .then((response) => {
                 // console.log("Response about otherId:", response.data.rows[0]);
-                this.setState(response.data.rows[0]);
-                console.log("this.state of otherId:", this.state);
+                if (
+                    response.data.rows[0].currentId ==
+                    this.props.match.params.id
+                ) {
+                    return this.props.history.push("/");
+                } else {
+                    this.setState(response.data.rows[0]);
+                    console.log("this.state of otherId:", this.state);
+                }
             })
             .catch((err) => {
                 console.log("Error getting otherId info:", err.message);
@@ -30,9 +37,6 @@ export default class OtherProfile extends Component {
     }
 
     render() {
-        // if (this.state.currentId == this.props.match.params.id) {
-        //     return this.props.history.push("/");
-        // }
         return (
             <div id="otherProfile">
                 {/* <h1>This is the OtherProfile!</h1> */}

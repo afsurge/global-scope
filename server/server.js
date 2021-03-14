@@ -88,7 +88,7 @@ app.post("/login", (req, res) => {
     if (email == "" || password == "") {
         return res.json({ success: false });
     }
-    db.getUser(email)
+    db.getUserByEmail(email)
         .then(({ rows }) => {
             // console.log(rows);
             const hashpass = rows[0].hashpass;
@@ -184,7 +184,7 @@ app.post("/pass/reset/verify", (req, res) => {
 app.get("/user", (req, res) => {
     const userId = req.session.userId;
     // console.log("id of logged in user:", id);
-    db.getUser(userId)
+    db.getUserById(userId)
         .then(({ rows }) => {
             res.json({ rows });
         })
@@ -226,10 +226,10 @@ app.get("/user/:id.json", (req, res) => {
     console.log("ID of user for OtherProfile:", req.params.id.slice(1));
     const otherId = req.params.id.slice(1);
     const userId = req.session.userId;
-    db.getUser(otherId)
+    db.getUserById(otherId)
         .then(({ rows }) => {
             rows[0].currentId = userId;
-            console.log("Info of otherId:", rows[0]);
+            // console.log("Info of otherId:", rows[0]);
             res.json({ rows });
         })
         .catch((err) => {

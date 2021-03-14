@@ -105,7 +105,16 @@ export default class App extends Component {
                                 />
                             )}
                         />
-                        <Route path="/user/:id" component={OtherProfile} />
+                        <Route
+                            path="/user/:id"
+                            render={(props) => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
                     </div>
                 </BrowserRouter>
                 {/* <Profile
