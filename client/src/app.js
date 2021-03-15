@@ -117,7 +117,7 @@ export default class App extends Component {
                                 />
                             )}
                         />
-                        <Route path="/users/recent" component={FindPeople} />
+                        <Route path="/users" component={FindPeople} />
                     </div>
                 </BrowserRouter>
                 {/* <Profile

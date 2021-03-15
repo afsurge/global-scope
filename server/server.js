@@ -238,7 +238,7 @@ app.get("/user/:id.json", (req, res) => {
         });
 });
 
-app.get("/users/recent.json", (req, res) => {
+app.get("/users.json", (req, res) => {
     db.getRecentUsers()
         .then(({ rows }) => {
             // console.log("Recent users:", rows);
@@ -249,7 +249,7 @@ app.get("/users/recent.json", (req, res) => {
         });
 });
 
-app.get("/user/:name", (req, res) => {
+app.get("/users/:name", (req, res) => {
     const name = req.params.name;
     console.log("Search term in server:", name);
     db.getSearchUsers(name)
