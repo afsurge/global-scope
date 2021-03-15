@@ -223,8 +223,8 @@ app.post("/bio", (req, res) => {
 });
 
 app.get("/user/:id.json", (req, res) => {
-    console.log("ID of user for OtherProfile:", req.params.id.slice(1));
-    const otherId = req.params.id.slice(1);
+    console.log("ID of user for OtherProfile:", req.params.id);
+    const otherId = req.params.id;
     const userId = req.session.userId;
     db.getUserById(otherId)
         .then(({ rows }) => {
@@ -235,6 +235,30 @@ app.get("/user/:id.json", (req, res) => {
         .catch((err) => {
             "Error getting otherId info:", err.message;
             res.json({ success: false });
+        });
+});
+
+app.get("/users/recent.json", (req, res) => {
+    db.getRecentUsers()
+        .then(({ rows }) => {
+            // console.log("Recent users:", rows);
+            res.json({ rows });
+        })
+        .catch((err) => {
+            "Error getting recent users:", err.message;
+        });
+});
+
+app.get("/user/:name", (req, res) => {
+    const name = req.params.name;
+    console.log("Search term in server:", name);
+    db.getSearchUsers(name)
+        .then(({ rows }) => {
+            // console.log("Searched users:", rows);
+            res.json({ rows });
+        })
+        .catch((err) => {
+            "Error getting searched users:", err.message;
         });
 });
 

@@ -17,16 +17,13 @@ export default class OtherProfile extends Component {
         console.log("ID of other user:", this.props.match.params.id);
         const otherId = this.props.match.params.id;
         axios
-            .get("/user/:" + otherId + ".json")
-            .then((response) => {
-                // console.log("Response about otherId:", response.data.rows[0]);
-                if (
-                    response.data.rows[0].currentId ==
-                    this.props.match.params.id
-                ) {
+            .get("/user/" + otherId + ".json")
+            .then(({ data }) => {
+                // console.log("Response about otherId:", data.rows[0]);
+                if (data.rows[0].currentId == this.props.match.params.id) {
                     return this.props.history.push("/");
                 } else {
-                    this.setState(response.data.rows[0]);
+                    this.setState(data.rows[0]);
                     console.log("this.state of otherId:", this.state);
                 }
             })

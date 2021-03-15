@@ -5,6 +5,7 @@ import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import OtherProfile from "./otherprofile";
 import { BrowserRouter, Route } from "react-router-dom";
+import FindPeople from "./findpeople";
 
 export default class App extends Component {
     constructor() {
@@ -16,6 +17,7 @@ export default class App extends Component {
             bio: null,
             showUploader: false,
         };
+        this.toggleUploader = this.toggleUploader.bind(this);
     }
 
     componentDidMount() {
@@ -78,11 +80,11 @@ export default class App extends Component {
         return (
             <div id="mainAppContainer">
                 <div className="appTop">
-                    <img id="logo" src="icon.png" />
+                    <img id="logo" src="/icon.png" />
                 </div>
                 <ProfilePic
                     imgUrl={this.state.imgUrl}
-                    toggleUploader={() => this.toggleUploader()}
+                    toggleUploader={this.toggleUploader}
                     class1="appTop"
                     class2="smallppic"
                 />
@@ -98,7 +100,7 @@ export default class App extends Component {
                                     last={this.state.last}
                                     bio={this.state.bio}
                                     imgUrl={this.state.imgUrl}
-                                    toggleUploader={() => this.toggleUploader()}
+                                    toggleUploader={this.toggleUploader}
                                     updateBioInApp={(bio) =>
                                         this.updateBioInApp(bio)
                                     }
@@ -115,6 +117,7 @@ export default class App extends Component {
                                 />
                             )}
                         />
+                        <Route path="/users/recent" component={FindPeople} />
                     </div>
                 </BrowserRouter>
                 {/* <Profile
@@ -131,7 +134,7 @@ export default class App extends Component {
                             uploaderInApp={(imgUrl) =>
                                 this.uploaderInApp(imgUrl)
                             }
-                            toggleUploader={() => this.toggleUploader()}
+                            toggleUploader={this.toggleUploader}
                         />
                     </div>
                 )}

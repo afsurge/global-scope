@@ -44,7 +44,7 @@ export default class Uploader extends Component {
                 {/* <h3 onClick={this.props.toggleUploader}>X</h3> */}
                 <img
                     id="closeUploader"
-                    src="x-image.png"
+                    src="/x-image.png"
                     onClick={this.props.toggleUploader}
                 />
                 <h3>Want to change/upload your profile picture?</h3>

@@ -94,6 +94,21 @@ button {
 #otherProfile {
     display: flex;
 }
+.people {
+    display: flex;
+    align-items: center;
+    width: 500px;
+}
+
+.people * {
+    margin: 10px;
+}
+
+.userppic {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
 
 textarea,
 input {

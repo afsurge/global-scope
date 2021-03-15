@@ -4,7 +4,8 @@ Part3: done
 Part4: done
 Part5: done
 Part6: done
+Part7: pending...
 
 MISC:
-    - Broken logo (icon.png) and close (X) for OtherProfile
+    X - Broken logo (icon.png) and close (X) for OtherProfile - Alistair fix by adding "/" in front in <img> src
     - CSS!
