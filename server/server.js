@@ -252,14 +252,25 @@ app.get("/users.json", (req, res) => {
 app.get("/users/:name", (req, res) => {
     const name = req.params.name;
     console.log("Search term in server:", name);
-    db.getSearchUsers(name)
-        .then(({ rows }) => {
-            // console.log("Searched users:", rows);
-            res.json({ rows });
-        })
-        .catch((err) => {
-            "Error getting searched users:", err.message;
-        });
+    if (name != "undefined") {
+        db.getSearchUsers(name)
+            .then(({ rows }) => {
+                // console.log("Searched users:", rows);
+                res.json({ rows });
+            })
+            .catch((err) => {
+                "Error getting searched users:", err.message;
+            });
+    } else {
+        db.getRecentUsers()
+            .then(({ rows }) => {
+                // console.log("Recent users (search):", rows);
+                res.json({ rows });
+            })
+            .catch((err) => {
+                "Error getting recent users (search):", err.message;
+            });
+    }
 });
 
 app.get("/logout", (req, res) => {
