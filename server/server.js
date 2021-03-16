@@ -278,6 +278,83 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
+app.get("/friendship/:otherId", (req, res) => {
+    const userId = req.session.userId;
+    const otherId = req.params.otherId;
+    const buttonText = [
+        "ADD FRIEND",
+        "REMOVE FRIEND",
+        "CANCEL REQUEST",
+        "ACCEPT REQUEST",
+    ];
+    db.getFriendship(userId, otherId)
+        .then(({ rows }) => {
+            console.log("Friendship:", rows);
+            if (rows.length == 0) {
+                res.json({ buttonText: buttonText[0] });
+            } else {
+                if (rows[0].accepted) {
+                    res.json({ buttonText: buttonText[1] });
+                } else {
+                    if (rows[0].sender_id == userId) {
+                        res.json({ buttonText: buttonText[2] });
+                    } else {
+                        res.json({ buttonText: buttonText[3] });
+                    }
+                }
+            }
+        })
+        .catch((err) => {
+            console.log("Error getting frienship:", err.message);
+            res.json({ success: false });
+        });
+});
+
+app.post("/friendship/manage", (req, res) => {
+    const buttonText = req.body.buttonText;
+    const otherId = req.body.otherId;
+    const userId = req.session.userId;
+    console.log("buttonText to manage (server):", buttonText);
+    console.log(`Manage userId:${userId} and otherId:${otherId}`);
+    if (buttonText == "ADD FRIEND") {
+        db.addFriend(userId, otherId, false)
+            .then(() => {
+                console.log("Friend request added! 😊️");
+                res.json({ buttonText: "CANCEL REQUEST" });
+            })
+            .catch((err) => {
+                console.log("Error add friend:", err.message);
+            });
+    } else if (buttonText == "CANCEL REQUEST") {
+        db.cancelRequest(userId, otherId)
+            .then(() => {
+                console.log("Friend request cancelled! 😔️");
+                res.json({ buttonText: "ADD FRIEND" });
+            })
+            .catch((err) => {
+                console.log("Error cancelling request:", err.message);
+            });
+    } else if (buttonText == "ACCEPT REQUEST") {
+        db.acceptRequest(userId, otherId, true)
+            .then(() => {
+                console.log("Friend request accepted! 😀️");
+                res.json({ buttonText: "REMOVE FRIEND" });
+            })
+            .catch((err) => {
+                console.log("Error accepting request:", err.message);
+            });
+    } else {
+        db.removeFriend(userId, otherId)
+            .then(() => {
+                console.log("Friend removed! 😢️");
+                res.json({ buttonText: "ADD FRIEND" });
+            })
+            .catch((err) => {
+                console.log("Error removing friend:", err.message);
+            });
+    }
+});
+
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url
     if (req.session.userId) {

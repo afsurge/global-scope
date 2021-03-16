@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS friendships;
 DROP TABLE IF EXISTS resetcodes;
 DROP TABLE IF EXISTS users;
 
@@ -17,4 +18,11 @@ CREATE TABLE resetcodes (
     user_email VARCHAR NOT NULL REFERENCES users(email),
     dcode VARCHAR NOT NULL CHECK (dcode <> ''),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE friendships ( 
+    id SERIAL PRIMARY KEY, 
+    sender_id INT REFERENCES users(id) NOT NULL, 
+    recipient_id INT REFERENCES users(id) NOT NULL, 
+    accepted BOOLEAN DEFAULT false 
 );
