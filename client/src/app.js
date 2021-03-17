@@ -80,7 +80,7 @@ export default class App extends Component {
         return (
             <div id="mainAppContainer">
                 <div className="appTop">
-                    <img id="logo" src="/icon.png" />
+                    <img id="logo" src="/net.png" />
                 </div>
                 <ProfilePic
                     imgUrl={this.state.imgUrl}
@@ -90,7 +90,7 @@ export default class App extends Component {
                 />
                 <h1 id="greetuser">Hi {this.state.first}!</h1>
                 <BrowserRouter>
-                    <div>
+                    <>
                         <Route
                             exact
                             path="/"
@@ -118,16 +118,8 @@ export default class App extends Component {
                             )}
                         />
                         <Route path="/users" component={FindPeople} />
-                    </div>
+                    </>
                 </BrowserRouter>
-                {/* <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    bio={this.state.bio}
-                    imgUrl={this.state.imgUrl}
-                    toggleUploader={() => this.toggleUploader()}
-                    updateBioInApp={(bio) => this.updateBioInApp(bio)}
-                /> */}
                 {this.state.showUploader && (
                     <div id="uploaderContainer">
                         <Uploader

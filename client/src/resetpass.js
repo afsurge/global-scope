@@ -63,23 +63,35 @@ export default class ResetPassword extends React.Component {
         const { step } = this.state;
 
         return (
-            <div className="resetpass">
+            <div id="resetForm">
                 <h1>Reset Password</h1>
+
                 {this.state.error && <p>something went wrong!</p>}
                 {step == 1 && (
-                    <div>
+                    <>
+                        <h4>
+                            Please provide your registered email address below
+                            and click the button. A security code will be
+                            emailed to your inbox.
+                        </h4>
                         <input
                             name="email"
                             placeholder="email"
                             onChange={(e) => this.handleChange(e)}
                         />
                         <button onClick={() => this.handleReset()}>
-                            RESET
+                            RESET PASSWORD
                         </button>
-                    </div>
+                        <Link to="/">REGISTER</Link>
+                        <Link to="/login">LOGIN</Link>
+                    </>
                 )}
                 {step == 2 && (
-                    <div>
+                    <>
+                        <h4>
+                            Please enter the security code we emailed you
+                            recently, your new password and click the button.
+                        </h4>
                         <input
                             name="code"
                             placeholder="secret code"
@@ -92,15 +104,18 @@ export default class ResetPassword extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                         <button onClick={() => this.handleVerify()}>
-                            VERIFY
+                            VERIFY CODE
                         </button>
-                    </div>
+                    </>
                 )}
                 {step == 3 && (
-                    <div>
-                        <p>SUCCESS!</p>
+                    <>
+                        <h4>
+                            SUCCESS! Your password has been reset with a new
+                            one.
+                        </h4>
                         <Link to="/login">Back to LOGIN</Link>
-                    </div>
+                    </>
                 )}
             </div>
         );

@@ -39,8 +39,12 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="loginForm">
                 <h1>Login</h1>
+                <h3>
+                    Please enter your registered email and password below to
+                    login to your profile.
+                </h3>
                 {this.state.error && <p>something went wrong!</p>}
                 <input
                     name="email"
@@ -54,6 +58,7 @@ export default class Login extends React.Component {
                     onChange={(e) => this.handleChange(e)}
                 />
                 <button onClick={() => this.handleClick()}>LOGIN</button>
+                <Link to="/">REGISTER</Link>
                 <Link to="/resetpass">RESET PASSWORD</Link>
             </div>
         );

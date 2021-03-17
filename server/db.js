@@ -51,6 +51,8 @@ module.exports.getCode = (email) => {
     SELECT *
     FROM resetcodes
     WHERE user_email = $1
+    ORDER BY id DESC
+    LIMIT 1
     `;
     const params = [email];
     return db.query(q, params);

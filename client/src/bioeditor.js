@@ -48,17 +48,15 @@ export default class BioEditor extends Component {
 
         axios
             .post("/bio", { bio: this.state.bioDraft })
-            .then((response) => {
-                console.log(
-                    "Response from server after Bio update:",
-                    response.data
-                );
-                if (response.data.success) {
+            .then(({ data }) => {
+                console.log("Response from server after Bio update:", data);
+                if (data.success) {
                     this.setState({
                         bioText: this.state.bioDraft,
                         edit: false,
                     });
                     this.props.updateBioInApp(this.state.bioDraft);
+                    location.replace("/");
                 }
             })
             .catch((err) => {
@@ -72,7 +70,7 @@ export default class BioEditor extends Component {
     render() {
         return (
             <div id="bioeditor">
-                <h2>{this.state.bioText}</h2>
+                <h2 id="biotext">{this.state.bioText}</h2>
                 {this.state.edit && (
                     <textarea
                         defaultValue={this.props.bio}

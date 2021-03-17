@@ -55,8 +55,12 @@ export default class Registration extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="regForm">
                 <h1>Registration</h1>
+                <h3>
+                    Please provide the minimum details below for registering to
+                    the network.
+                </h3>
                 {this.state.error && <p>something went wrong!</p>}
                 <input
                     name="first"
@@ -80,7 +84,7 @@ export default class Registration extends React.Component {
                     onChange={(e) => this.handleChange(e)}
                 />
                 <button onClick={() => this.handleClick()}>SIGN UP!</button>
-                <Link to="/login">LOG IN!</Link>
+                <Link to="/login">Already with us? Go to LOGIN</Link>
             </div>
         );
     }
