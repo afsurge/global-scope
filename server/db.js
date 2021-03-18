@@ -158,6 +158,9 @@ module.exports.removeFriend = (userId, otherId) => {
     return db.query(q, params);
 };
 
+// INCOMPLETE new query for reject request
+module.exports.rejectRequest = (userId, otherId) => {};
+
 module.exports.getFriendsWannabes = (userId) => {
     const q = `
     SELECT users.id, first, last, imgurl, accepted
@@ -169,6 +172,10 @@ module.exports.getFriendsWannabes = (userId) => {
     `;
     // returns users that are friends + users who sent requests to me
     // does not include users to whom requests have been sent by me
+
+    // for pending requests sent by me:
+    // OR (accepted = false AND sender_id = $1 AND recipient_id  = users.id)
+
     const params = [userId];
     return db.query(q, params);
 };

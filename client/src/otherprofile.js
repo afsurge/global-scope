@@ -25,7 +25,7 @@ export default class OtherProfile extends Component {
                     return this.props.history.push("/");
                 } else {
                     this.setState(data.rows[0]);
-                    console.log("this.state of otherId:", this.state);
+                    // console.log("this.state of otherId:", this.state);
                 }
             })
             .catch((err) => {

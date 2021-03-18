@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getFriendsWannabes, acceptFriend, removeFriend } from "./actions";
+import {
+    getFriendsWannabes,
+    acceptFriend,
+    removeFriend,
+    rejectRequest,
+} from "./actions";
 
 export default function Friends() {
     const dispatch = useDispatch();
@@ -39,10 +44,12 @@ export default function Friends() {
                                 <p>
                                     {friend.first} {friend.last}
                                 </p>
-                                <img
-                                    className="friendppic"
-                                    src={friend.imgurl}
-                                />
+                                <Link to={`/user/${friend.id}`}>
+                                    <img
+                                        className="friendppic"
+                                        src={friend.imgurl}
+                                    />
+                                </Link>
                                 <button
                                     onClick={() =>
                                         dispatch(removeFriend(friend.id))
@@ -63,16 +70,25 @@ export default function Friends() {
                                 <p>
                                     {wannabe.first} {wannabe.last}
                                 </p>
-                                <img
-                                    className="wannabeppic"
-                                    src={wannabe.imgurl}
-                                />
+                                <Link to={`/user/${wannabe.id}`}>
+                                    <img
+                                        className="wannabeppic"
+                                        src={wannabe.imgurl}
+                                    />
+                                </Link>
                                 <button
                                     onClick={() =>
                                         dispatch(acceptFriend(wannabe.id))
                                     }
                                 >
                                     ACCEPT
+                                </button>
+                                <button
+                                    onClick={() =>
+                                        dispatch(rejectRequest(wannabe.id))
+                                    }
+                                >
+                                    REJECT
                                 </button>
                             </div>
                         );

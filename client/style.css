@@ -160,13 +160,19 @@ h4 {
     font-style: italic;
 }
 
+#friendsWannabes {
+    width: 100%;
+}
+
 #friends,
 #wannabes {
     display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-evenly; */
 }
 
 #friendsWannabes h2 {
-    margin: 20px 0px 0px 0px;
+    margin: 15px 0px 0px 0px;
 }
 
 .friends,
@@ -179,6 +185,7 @@ h4 {
 
 .friends p,
 .wannabes p {
+    font-size: 1.1em;
     margin: 0px;
 }
 

@@ -29,16 +29,17 @@ export default function reducer(state = {}, action) {
             friendsWannabes: state.friendsWannabes.filter(
                 (friend) => friend.id != action.id
             ),
-            // friendsWannabes: state.friendsWannabes.map((friend) => {
-            //     if (friend.id == action.id) {
-            //         return {
-            //             ...friend,
-            //             accepted: true,
-            //         };
-            //     } else {
-            //         return friend;
-            //     }
-            // }),
+        };
+    }
+
+    // TEST PENDING
+    // could be integrated into "REMOVE_FRIEND" above if below works!
+    if (action.type === "REJECT_REQUEST") {
+        state = {
+            ...state,
+            friendsWannabes: state.friendsWannabes.filter(
+                (wannabe) => wannabe.id != action.id
+            ),
         };
     }
 

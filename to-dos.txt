@@ -6,11 +6,11 @@ Part5: done
 Part6: done
 Part7: done
 Part8: done
-Part9: pending...
+Part9: pending bonus
 
 MISC:
     X - Broken logo (icon.png) and close (X) for OtherProfile - Alistair fix by adding "/" in front in <img> src
-    - Link other users in /users to go to /user/id + mouse over effects
+    X - Link other users in /users to go to /user/id + mouse over effects
     - top navbar for find people, friends, etc.
     - CSS buttons on mouse over effects
     - CSS!

@@ -311,12 +311,12 @@ app.get("/friendship/:otherId", (req, res) => {
 });
 
 app.post("/friendship/manage", (req, res) => {
-    const buttonText = req.body.buttonText;
+    const buttonAction = req.body.buttonAction;
     const otherId = req.body.otherId;
     const userId = req.session.userId;
-    console.log("buttonText to manage (server):", buttonText);
+    console.log("buttonAction to manage (server):", buttonAction);
     console.log(`Manage userId:${userId} and otherId:${otherId}`);
-    if (buttonText == "ADD FRIEND") {
+    if (buttonAction == "ADD FRIEND") {
         db.addFriend(userId, otherId, false)
             .then(() => {
                 console.log("Friend request added! 😊️");
@@ -325,7 +325,7 @@ app.post("/friendship/manage", (req, res) => {
             .catch((err) => {
                 console.log("Error add friend:", err.message);
             });
-    } else if (buttonText == "CANCEL REQUEST") {
+    } else if (buttonAction == "CANCEL REQUEST") {
         db.cancelRequest(userId, otherId)
             .then(() => {
                 console.log("Friend request cancelled! 😔️");
@@ -334,7 +334,7 @@ app.post("/friendship/manage", (req, res) => {
             .catch((err) => {
                 console.log("Error cancelling request:", err.message);
             });
-    } else if (buttonText == "ACCEPT REQUEST") {
+    } else if (buttonAction == "ACCEPT REQUEST") {
         db.acceptRequest(userId, otherId, true)
             .then(() => {
                 console.log("Friend request accepted! 😀️");
@@ -343,7 +343,7 @@ app.post("/friendship/manage", (req, res) => {
             .catch((err) => {
                 console.log("Error accepting request:", err.message);
             });
-    } else {
+    } else if (buttonAction == "REMOVE FRIEND") {
         db.removeFriend(userId, otherId)
             .then(() => {
                 console.log("Friend removed! 😢️");
@@ -352,6 +352,8 @@ app.post("/friendship/manage", (req, res) => {
             .catch((err) => {
                 console.log("Error removing friend:", err.message);
             });
+    } else if (buttonAction == "REJECT REQUEST") {
+        // INCOMPLETE
     }
 });
 
@@ -368,36 +370,36 @@ app.get("/friends.json", (req, res) => {
         });
 });
 
-app.post("/friends/:id", (req, res) => {
-    const userId = req.session.userId;
-    const otherId = req.params.id;
-    const action = req.body.action;
-    console.log(`userId: ${userId}, otherId: ${otherId}, action: ${action}`);
-    if (action == "accept") {
-        db.acceptRequest(userId, otherId, true)
-            .then(() => {
-                console.log("Friend accepted using Redux! 😀️");
-                res.json({ success: true });
-            })
-            .catch((err) => {
-                console.log(
-                    "Error accepting request using Redux:",
-                    err.message
-                );
-            });
-    }
+// app.post("/friends/:id", (req, res) => {
+//     const userId = req.session.userId;
+//     const otherId = req.params.id;
+//     const action = req.body.action;
+//     console.log(`userId: ${userId}, otherId: ${otherId}, action: ${action}`);
+//     if (action == "accept") {
+//         db.acceptRequest(userId, otherId, true)
+//             .then(() => {
+//                 console.log("Friend accepted using Redux! 😀️");
+//                 res.json({ success: true });
+//             })
+//             .catch((err) => {
+//                 console.log(
+//                     "Error accepting request using Redux:",
+//                     err.message
+//                 );
+//             });
+//     }
 
-    if (action == "remove") {
-        db.removeFriend(userId, otherId)
-            .then(() => {
-                console.log("Friend removed using Redux! 😢️");
-                res.json({ success: true });
-            })
-            .catch((err) => {
-                console.log("Error removing friend using Redux:", err.message);
-            });
-    }
-});
+//     if (action == "remove") {
+//         db.removeFriend(userId, otherId)
+//             .then(() => {
+//                 console.log("Friend removed using Redux! 😢️");
+//                 res.json({ success: true });
+//             })
+//             .catch((err) => {
+//                 console.log("Error removing friend using Redux:", err.message);
+//             });
+//     }
+// });
 
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url

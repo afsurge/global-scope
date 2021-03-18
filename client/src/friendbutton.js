@@ -26,7 +26,7 @@ export default function FriendButton(props) {
         console.log("Button clicked! buttonText:", buttonText);
         axios
             .post("/friendship/manage/", {
-                buttonText: buttonText,
+                buttonAction: buttonText,
                 otherId: otherId,
             })
             .then(({ data }) => {
