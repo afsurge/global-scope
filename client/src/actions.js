@@ -9,3 +9,21 @@ export async function getFriendsWannabes() {
         friendsList: data.rows,
     };
 }
+
+export async function acceptFriend(id) {
+    console.log("accept action triggered for id:", id);
+    await axios.post(`/friends/${id}`, { action: "accept" });
+    return {
+        type: "ACCEPT_FRIEND",
+        id,
+    };
+}
+
+export async function removeFriend(id) {
+    console.log("remove action triggered for id:", id);
+    await axios.post(`/friends/${id}`, { action: "remove" });
+    return {
+        type: "REMOVE_FRIEND",
+        id,
+    };
+}

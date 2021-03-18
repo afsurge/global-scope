@@ -359,13 +359,44 @@ app.get("/friends.json", (req, res) => {
     const userId = req.session.userId;
     db.getFriendsWannabes(userId)
         .then(({ rows }) => {
-            console.log("Response getFriendsWannabes from database:", rows);
+            // console.log("Response getFriendsWannabes from database:", rows);
             res.json({ rows });
         })
         .catch((err) => {
             console.log("Error getFriendsWannabes from database:", err.message);
             res.json({ success: false });
         });
+});
+
+app.post("/friends/:id", (req, res) => {
+    const userId = req.session.userId;
+    const otherId = req.params.id;
+    const action = req.body.action;
+    console.log(`userId: ${userId}, otherId: ${otherId}, action: ${action}`);
+    if (action == "accept") {
+        db.acceptRequest(userId, otherId, true)
+            .then(() => {
+                console.log("Friend accepted using Redux! 😀️");
+                res.json({ success: true });
+            })
+            .catch((err) => {
+                console.log(
+                    "Error accepting request using Redux:",
+                    err.message
+                );
+            });
+    }
+
+    if (action == "remove") {
+        db.removeFriend(userId, otherId)
+            .then(() => {
+                console.log("Friend removed using Redux! 😢️");
+                res.json({ success: true });
+            })
+            .catch((err) => {
+                console.log("Error removing friend using Redux:", err.message);
+            });
+    }
 });
 
 app.get("/welcome", (req, res) => {

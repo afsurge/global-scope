@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getFriendsWannabes } from "./actions";
+import { getFriendsWannabes, acceptFriend, removeFriend } from "./actions";
 
 export default function Friends() {
     const dispatch = useDispatch();
@@ -43,6 +43,13 @@ export default function Friends() {
                                     className="friendppic"
                                     src={friend.imgurl}
                                 />
+                                <button
+                                    onClick={() =>
+                                        dispatch(removeFriend(friend.id))
+                                    }
+                                >
+                                    REMOVE
+                                </button>
                             </div>
                         );
                     })}
@@ -60,6 +67,13 @@ export default function Friends() {
                                     className="wannabeppic"
                                     src={wannabe.imgurl}
                                 />
+                                <button
+                                    onClick={() =>
+                                        dispatch(acceptFriend(wannabe.id))
+                                    }
+                                >
+                                    ACCEPT
+                                </button>
                             </div>
                         );
                     })}
