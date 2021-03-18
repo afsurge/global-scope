@@ -70,7 +70,7 @@ export default class BioEditor extends Component {
     render() {
         return (
             <div id="bioeditor">
-                <h2 id="biotext">{this.state.bioText}</h2>
+                <p id="biotext">{this.state.bioText}</p>
                 {this.state.edit && (
                     <textarea
                         defaultValue={this.props.bio}

@@ -3,11 +3,16 @@
 * {
     font-family: "Titillium Web", sans-serif;
     color: white;
+    box-sizing: border-box;
     /* margin: 0; */
 }
 
 body {
     background-color: #2e3440;
+}
+
+#welcome-logo {
+    height: 400px;
 }
 
 #logo {
@@ -24,7 +29,7 @@ body {
     height: 200px;
     text-align: center;
     border: 2px solid black;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .smallppic {
@@ -75,6 +80,10 @@ body {
     width: 100%;
 }
 
+#bioeditor p {
+    font-size: 1.5em;
+}
+
 button {
     background-color: #88c0d0;
     color: #2e3440;
@@ -108,7 +117,8 @@ button {
     margin: 5px;
 }
 
-.userppic {
+.userppic,
+.friendppic {
     height: 100px;
     width: 100px;
     object-fit: cover;
@@ -148,6 +158,33 @@ h4 {
 
 #biotext {
     font-style: italic;
+}
+
+#friends,
+#wannabes {
+    display: flex;
+}
+
+#friendsWannabes h2 {
+    margin: 20px 0px 0px 0px;
+}
+
+.friends,
+.wannabes {
+    margin: 10px;
+    text-align: center;
+}
+
+.friends p,
+.wannabes p {
+    margin: 0px;
+}
+
+.friendppic,
+.wannabeppic {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
 }
 
 /* .spiced {

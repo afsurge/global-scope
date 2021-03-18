@@ -6,6 +6,7 @@ import Uploader from "./uploader";
 import OtherProfile from "./otherprofile";
 import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./findpeople";
+import Friends from "./friends";
 
 export default class App extends Component {
     constructor() {
@@ -80,7 +81,7 @@ export default class App extends Component {
         return (
             <div id="mainAppContainer">
                 <div className="appTop">
-                    <img id="logo" src="/net.png" />
+                    <img id="logo" src="/net2.png" />
                 </div>
                 <ProfilePic
                     imgUrl={this.state.imgUrl}
@@ -118,6 +119,7 @@ export default class App extends Component {
                             )}
                         />
                         <Route path="/users" component={FindPeople} />
+                        <Route path="/friends" component={Friends} />
                     </>
                 </BrowserRouter>
                 {this.state.showUploader && (

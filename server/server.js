@@ -355,6 +355,19 @@ app.post("/friendship/manage", (req, res) => {
     }
 });
 
+app.get("/friends.json", (req, res) => {
+    const userId = req.session.userId;
+    db.getFriendsWannabes(userId)
+        .then(({ rows }) => {
+            console.log("Response getFriendsWannabes from database:", rows);
+            res.json({ rows });
+        })
+        .catch((err) => {
+            console.log("Error getFriendsWannabes from database:", err.message);
+            res.json({ success: false });
+        });
+});
+
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url
     if (req.session.userId) {

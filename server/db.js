@@ -157,3 +157,18 @@ module.exports.removeFriend = (userId, otherId) => {
     const params = [userId, otherId];
     return db.query(q, params);
 };
+
+module.exports.getFriendsWannabes = (userId) => {
+    const q = `
+    SELECT users.id, first, last, imgurl, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND recipient_id  = users.id)
+    `;
+    // returns users that are friends + users who sent requests to me
+    // does not include users to whom requests have been sent by me
+    const params = [userId];
+    return db.query(q, params);
+};
