@@ -23,22 +23,15 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    if (action.type === "REMOVE_FRIEND") {
+    if (
+        action.type === "REMOVE_FRIEND" ||
+        action.type === "REJECT_REQUEST" ||
+        action.type === "CANCEL_REQUEST"
+    ) {
         state = {
             ...state,
             friendsWannabes: state.friendsWannabes.filter(
-                (friend) => friend.id != action.id
-            ),
-        };
-    }
-
-    // TEST PENDING
-    // could be integrated into "REMOVE_FRIEND" above if below works!
-    if (action.type === "REJECT_REQUEST") {
-        state = {
-            ...state,
-            friendsWannabes: state.friendsWannabes.filter(
-                (wannabe) => wannabe.id != action.id
+                (friendWannabe) => friendWannabe.id != action.id
             ),
         };
     }

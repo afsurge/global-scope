@@ -138,7 +138,7 @@ input {
 }
 
 h1 {
-    margin: 10px 0px;
+    margin: 0px;
 }
 
 h2,
@@ -165,34 +165,46 @@ h4 {
 }
 
 #friends,
-#wannabes {
+#wannabes,
+#wannahaves {
     display: flex;
     flex-wrap: wrap;
+    margin: 40px 0px;
     /* justify-content: space-evenly; */
 }
 
 #friendsWannabes h2 {
-    margin: 15px 0px 0px 0px;
+    margin: 0px;
+    width: 150px;
+}
+
+#friendsWannabes button {
+    font-size: 1em;
+    margin: 5px;
+    width: 80px;
 }
 
 .friends,
-.wannabes {
-    margin: 10px;
+.wannabes,
+.wannahaves {
+    margin: 0px 10px 0px 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
 .friends p,
-.wannabes p {
+.wannabes p,
+.wannahaves p {
     font-size: 1.1em;
     margin: 0px;
 }
 
 .friendppic,
-.wannabeppic {
-    height: 150px;
-    width: 150px;
+.wannabeppic,
+.wannahaveppic {
+    height: 120px;
+    width: 120px;
     object-fit: cover;
 }
 

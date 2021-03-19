@@ -6,6 +6,7 @@ import {
     acceptFriend,
     removeFriend,
     rejectRequest,
+    cancelRequest,
 } from "./actions";
 
 export default function Friends() {
@@ -21,12 +22,27 @@ export default function Friends() {
     const wannabes = useSelector((state) => {
         return (
             state.friendsWannabes &&
-            state.friendsWannabes.filter((wannabe) => !wannabe.accepted)
+            state.friendsWannabes.filter(
+                (wannabe) =>
+                    !wannabe.accepted && wannabe.id == wannabe.sender_id
+            )
+        );
+    });
+
+    const wannahaves = useSelector((state) => {
+        return (
+            state.friendsWannabes &&
+            state.friendsWannabes.filter(
+                (wannahaves) =>
+                    !wannahaves.accepted &&
+                    wannahaves.id != wannahaves.sender_id
+            )
         );
     });
 
     // console.log("friends in component:", friends);
     // console.log("wannabes in component:", wannabes);
+    // console.log("wannahaves in component:", wannahaves);
 
     useEffect(() => {
         // console.log("Dispatch for friends and wannabes!");
@@ -35,8 +51,8 @@ export default function Friends() {
 
     return (
         <div id="friendsWannabes">
-            <h2>FRIENDS</h2>
             <div id="friends">
+                <h2>FRIENDS</h2>
                 {friends &&
                     friends.map((friend) => {
                         return (
@@ -61,8 +77,8 @@ export default function Friends() {
                         );
                     })}
             </div>
-            <h2>WANNABES</h2>
             <div id="wannabes">
+                <h2>WANNABES</h2>
                 {wannabes &&
                     wannabes.map((wannabe) => {
                         return (
@@ -89,6 +105,32 @@ export default function Friends() {
                                     }
                                 >
                                     REJECT
+                                </button>
+                            </div>
+                        );
+                    })}
+            </div>
+            <div id="wannahaves">
+                <h2>PENDING</h2>
+                {wannahaves &&
+                    wannahaves.map((wannahave) => {
+                        return (
+                            <div className="wannahaves" key={wannahave.id}>
+                                <p>
+                                    {wannahave.first} {wannahave.last}
+                                </p>
+                                <Link to={`/user/${wannahave.id}`}>
+                                    <img
+                                        className="wannahaveppic"
+                                        src={wannahave.imgurl}
+                                    />
+                                </Link>
+                                <button
+                                    onClick={() =>
+                                        dispatch(cancelRequest(wannahave.id))
+                                    }
+                                >
+                                    CANCEL
                                 </button>
                             </div>
                         );

@@ -142,7 +142,7 @@ module.exports.acceptRequest = (userId, otherId, accepted) => {
     const q = `
     UPDATE friendships
     SET accepted = $3
-    WHERE sender_id = $2 AND recipient_id = $1
+    WHERE (sender_id = $2 AND recipient_id = $1)
     `;
     const params = [userId, otherId, accepted];
     return db.query(q, params);
@@ -158,17 +158,15 @@ module.exports.removeFriend = (userId, otherId) => {
     return db.query(q, params);
 };
 
-// INCOMPLETE new query for reject request
-module.exports.rejectRequest = (userId, otherId) => {};
-
 module.exports.getFriendsWannabes = (userId) => {
     const q = `
-    SELECT users.id, first, last, imgurl, accepted
+    SELECT users.id, first, last, imgurl, sender_id, accepted
     FROM friendships
     JOIN users
     ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
     OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
     OR (accepted = true AND sender_id = $1 AND recipient_id  = users.id)
+    OR (accepted = false AND sender_id = $1 AND recipient_id  = users.id)
     `;
     // returns users that are friends + users who sent requests to me
     // does not include users to whom requests have been sent by me

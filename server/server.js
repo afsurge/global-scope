@@ -13,6 +13,14 @@ const uidSafe = require("uid-safe");
 const s3 = require("./s3");
 const config = require("./config.json");
 
+//// socket.io ////
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+//// socket.io ////
+
 //// for S3 upload ////
 
 const diskStorage = multer.diskStorage({
@@ -315,7 +323,9 @@ app.post("/friendship/manage", (req, res) => {
     const otherId = req.body.otherId;
     const userId = req.session.userId;
     console.log("buttonAction to manage (server):", buttonAction);
-    console.log(`Manage userId:${userId} and otherId:${otherId}`);
+    console.log(
+        `Manage action ${buttonAction} for userId:${userId}, otherId:${otherId}`
+    );
     if (buttonAction == "ADD FRIEND") {
         db.addFriend(userId, otherId, false)
             .then(() => {
@@ -343,17 +353,18 @@ app.post("/friendship/manage", (req, res) => {
             .catch((err) => {
                 console.log("Error accepting request:", err.message);
             });
-    } else if (buttonAction == "REMOVE FRIEND") {
+    } else if (
+        buttonAction == "REMOVE FRIEND" ||
+        buttonAction == "REJECT REQUEST"
+    ) {
         db.removeFriend(userId, otherId)
             .then(() => {
-                console.log("Friend removed! 😢️");
+                console.log("Friend/Request removed! 😢️");
                 res.json({ buttonText: "ADD FRIEND" });
             })
             .catch((err) => {
                 console.log("Error removing friend:", err.message);
             });
-    } else if (buttonAction == "REJECT REQUEST") {
-        // INCOMPLETE
     }
 });
 
@@ -429,7 +440,54 @@ app.get("*", (req, res) => {
 //// routes ////
 
 //// listen ////
-app.listen(process.env.PORT || 3001, function () {
+// server.listen instead of app.listen after adding sockets.io boilerplate
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
 //// listen ////
+
+// has to be below listen for SN project
+io.on("connection", (socket) => {
+    console.log(`socket with id: ${socket.id} has connected!`);
+
+    // emit
+    // arg 1 - name of custom event that gets emitted
+    // arg 2 - data (obj) to send to client
+    socket.emit("hello", {
+        cohort: "Fennel",
+    });
+
+    socket.on("cool message", (data) => {
+        console.log("data from client:", data);
+    });
+
+    socket.on("helloWorld clicked", (data) => {
+        console.log(data);
+    });
+
+    // server may want to send messages to ALL connected sockets
+    io.emit("trying to talk to everyone", {
+        cohort: "fennel",
+    });
+
+    // send message to every socket EXCEPT your own
+    socket.broadcast.emit("hello to everyone except me", {
+        cohort: "fennel",
+    });
+
+    // send message to a specific socket (bonus: private msg for SN)
+    io.sockets.sockets.get(socket.id).emit("hello", {
+        message: "hi there, im trying to talk to only you!",
+    });
+
+    // send message to every socket EXCEPT one
+    io.sockets.sockets
+        .get(socket.id)
+        .broadcast.emit("excluding just a particular socket", {
+            message: "we r trying to plan a surprise!",
+        });
+
+    socket.on("disconnect", () => {
+        console.log(`socket with id: ${socket.id} just disconnected!`);
+    });
+});

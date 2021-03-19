@@ -48,3 +48,16 @@ export async function rejectRequest(id) {
         id,
     };
 }
+
+export async function cancelRequest(id) {
+    console.log("cancel action triggered for id:", id);
+    // await axios.post(`/friends/${id}`, { action: "remove" });
+    await axios.post("/friendship/manage", {
+        buttonAction: "CANCEL REQUEST",
+        otherId: id,
+    });
+    return {
+        type: "CANCEL_REQUEST",
+        id,
+    };
+}
