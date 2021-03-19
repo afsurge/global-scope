@@ -44,10 +44,11 @@ export default class OtherProfile extends Component {
                     src={this.state.imgurl}
                 />
                 <div id="otherProfileInfo">
-                    <h2>
-                        Profile: {this.state.first} {this.state.last}
-                    </h2>
-                    <h2>Bio: {this.state.bio}</h2>
+                    <h1>
+                        {this.state.first} {this.state.last}
+                    </h1>
+                    <h2>ABOUT ME</h2>
+                    <p className="biotext">{this.state.bio}</p>
                     <FriendButton otherId={this.props.match.params.id} />
                 </div>
             </div>

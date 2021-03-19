@@ -37,12 +37,14 @@ body {
     height: 60px;
     object-fit: cover;
     float: right;
+    border-radius: 10px;
 }
 
 .largeppic {
     width: 300px;
     height: 300px;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 .appTop {
@@ -67,21 +69,51 @@ body {
 
 #greetuser {
     width: 100%;
+    padding: 5px;
 }
 
-#profile {
+#profile,
+#otherProfile {
     display: flex;
     width: 100%;
+    padding: 20px;
+    background-color: #3b4252;
 }
 
-#bioeditor {
+#profilepic {
+    margin: auto 0;
+}
+
+#bioeditor,
+#otherProfileInfo {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-#bioeditor p {
+#otherProfileInfo h1 {
+    margin: 10px;
+    font-style: italic;
+    font-size: 3em;
+}
+
+#bioeditor h2,
+#otherProfileInfo h2 {
+    margin: 0px 10px;
+}
+
+.biotext {
     font-size: 1.5em;
+    margin: 0px 10px 10px 10px;
+    color: #88c0d0;
+}
+
+#biotexteditor {
+    border: 2px solid #2e3440;
+    height: 80px;
+    outline: none;
+    resize: none;
+    margin: 10px;
 }
 
 button {
@@ -104,17 +136,25 @@ button {
     margin: 10px;
 }
 
-#otherProfile {
-    display: flex;
-}
 .people {
     display: flex;
     align-items: center;
     width: 500px;
+    background-color: #3b4252;
+    border-radius: 10px;
+    margin: 5px;
 }
 
-.people * {
-    margin: 5px;
+.people h2 {
+    margin: 20px;
+    color: #88c0d0;
+}
+
+#findPeople {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
 }
 
 .userppic,
@@ -122,6 +162,15 @@ button {
     height: 100px;
     width: 100px;
     object-fit: cover;
+}
+
+.userppic {
+    border: 2px solid #88c0d0;
+}
+
+.userppiclink {
+    height: 100px;
+    width: 100px;
 }
 
 textarea,
@@ -144,7 +193,7 @@ h1 {
 h2,
 h3,
 h4 {
-    margin: 15px 0px;
+    margin: 5px 0px;
 }
 
 #welcome,
@@ -156,10 +205,6 @@ h4 {
     align-items: center;
 }
 
-#biotext {
-    font-style: italic;
-}
-
 #friendsWannabes {
     width: 100%;
 }
@@ -169,7 +214,7 @@ h4 {
 #wannahaves {
     display: flex;
     flex-wrap: wrap;
-    margin: 40px 0px;
+    margin: 35px 0px;
     /* justify-content: space-evenly; */
 }
 
@@ -180,17 +225,21 @@ h4 {
 
 #friendsWannabes button {
     font-size: 1em;
-    margin: 5px;
+    margin: 2px;
     width: 80px;
 }
 
 .friends,
 .wannabes,
 .wannahaves {
-    margin: 0px 10px 0px 10px;
+    margin: 0px 5px 0px 5px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    width: 170px;
+    background-color: #3b4252;
+    padding: 5px;
+    border-radius: 10px;
 }
 
 .friends p,
@@ -198,6 +247,7 @@ h4 {
 .wannahaves p {
     font-size: 1.1em;
     margin: 0px;
+    color: #88c0d0;
 }
 
 .friendppic,

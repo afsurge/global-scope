@@ -70,9 +70,11 @@ export default class BioEditor extends Component {
     render() {
         return (
             <div id="bioeditor">
-                <p id="biotext">{this.state.bioText}</p>
+                <h2>ABOUT ME</h2>
+                <p className="biotext">{this.state.bioText}</p>
                 {this.state.edit && (
                     <textarea
+                        id="biotexteditor"
                         defaultValue={this.props.bio}
                         onChange={(e) => this.handleChange(e)}
                     />

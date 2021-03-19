@@ -61,7 +61,10 @@ export default function FindPeople() {
                 resultUsers.map(function (user) {
                     return (
                         <div className="people" key={user.id}>
-                            <Link to={`/user/${user.id}`}>
+                            <Link
+                                className="userppiclink"
+                                to={`/user/${user.id}`}
+                            >
                                 <img className="userppic" src={user.imgurl} />
                             </Link>
                             <h2>
