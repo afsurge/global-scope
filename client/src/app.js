@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "./axios";
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
@@ -81,15 +82,33 @@ export default class App extends Component {
         return (
             <div id="mainAppContainer">
                 <div className="appTop">
-                    <img id="logo" src="/net2.png" />
+                    <a id="logo-tag" href="/">
+                        <img id="logo" src="/net2.png" />
+                    </a>
+                    <div id="navbar">
+                        <a className="navlinks" href="/friends">
+                            PEOPLE
+                        </a>
+                        <a className="navlinks" href="/users">
+                            SEARCH
+                        </a>
+                        <a className="navlinks" href="/">
+                            PROFILE
+                        </a>
+                        <a className="navlinks" href="/logout">
+                            LOGOUT
+                        </a>
+                    </div>
                 </div>
-                <ProfilePic
-                    imgUrl={this.state.imgUrl}
-                    toggleUploader={this.toggleUploader}
-                    class1="appTop"
-                    class2="smallppic"
-                />
-                <h1 id="greetuser">Hi {this.state.first}!</h1>
+                <div id="greet-profile">
+                    <h1 id="greetuser">Hi {this.state.first}!</h1>
+                    <ProfilePic
+                        imgUrl={this.state.imgUrl}
+                        toggleUploader={this.toggleUploader}
+                        // class1="appTop"
+                        class2="smallppic"
+                    />
+                </div>
                 <BrowserRouter>
                     <>
                         <Route

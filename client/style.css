@@ -4,7 +4,7 @@
     font-family: "Titillium Web", sans-serif;
     color: white;
     box-sizing: border-box;
-    /* margin: 0; */
+    margin: 0;
 }
 
 body {
@@ -17,6 +17,10 @@ body {
 
 #logo {
     width: 60px;
+}
+
+#logo-tag {
+    height: 60px;
 }
 
 #uploader {
@@ -38,6 +42,7 @@ body {
     object-fit: cover;
     float: right;
     border-radius: 10px;
+    margin: 0px 5px 0px 0px;
 }
 
 .largeppic {
@@ -48,8 +53,36 @@ body {
 }
 
 .appTop {
-    display: inline-block;
-    width: 50%;
+    display: flex;
+    width: 100%;
+    background-color: #3b4252;
+    padding: 5px 0px 0px 5px;
+}
+
+#navbar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.navlinks {
+    display: flex;
+    align-items: flex-end;
+    padding: 0px 20px;
+    margin: 0px 5px;
+    text-decoration: none;
+    height: 100%;
+    font-size: 1.1em;
+    color: #88c0d0;
+    border: 1px solid #88c0d0;
+}
+
+.navlinks:hover {
+    background-color: #5e81ac;
+    color: #2e3440;
+    transition: all 500ms ease;
+    align-items: center;
 }
 
 #mainAppContainer {
@@ -69,7 +102,12 @@ body {
 
 #greetuser {
     width: 100%;
-    padding: 5px;
+    padding: 15px 5px;
+}
+
+#greet-profile {
+    width: 100%;
+    display: flex;
 }
 
 #profile,
@@ -125,6 +163,11 @@ button {
     margin: 10px;
 }
 
+button:hover {
+    background-color: #5e81ac;
+    transition: all 500ms ease;
+}
+
 .bioButtons {
     width: 25%;
 }
@@ -168,9 +211,8 @@ button {
     border: 2px solid #88c0d0;
 }
 
-.userppiclink {
-    height: 100px;
-    width: 100px;
+.find-people-link {
+    text-decoration: none;
 }
 
 textarea,

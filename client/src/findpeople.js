@@ -50,7 +50,7 @@ export default function FindPeople() {
 
     return (
         <div id="findPeople">
-            <h2>Find People</h2>
+            <h2>FIND PEOPLE</h2>
             {searchTerm == undefined && (
                 <h3>These people just joined our network!</h3>
             )}
@@ -60,20 +60,25 @@ export default function FindPeople() {
             {resultUsers &&
                 resultUsers.map(function (user) {
                     return (
-                        <div className="people" key={user.id}>
+                        <>
                             <Link
-                                className="userppiclink"
+                                className="find-people-link"
                                 to={`/user/${user.id}`}
                             >
-                                <img className="userppic" src={user.imgurl} />
+                                <div className="people" key={user.id}>
+                                    <img
+                                        className="userppic"
+                                        src={user.imgurl}
+                                    />
+                                    <h2>
+                                        {user.first} {user.last}
+                                    </h2>
+                                </div>
                             </Link>
-                            <h2>
-                                {user.first} {user.last}
-                            </h2>
-                        </div>
+                        </>
                     );
                 })}
-            <h4>Someone specific ?</h4>
+            <h3>Someone specific ?</h3>
             <input
                 defaultValue={searchTerm}
                 onChange={({ target }) => {
