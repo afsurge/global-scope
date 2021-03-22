@@ -17,9 +17,9 @@ module.exports.addUser = (first, last, email, hashpass) => {
 
 module.exports.getUserByEmail = (email) => {
     const q = `
-    SELECT *
-    FROM users
-    WHERE email = $1
+        SELECT *
+        FROM users
+        WHERE email = $1
     `;
     const params = [email];
     return db.query(q, params);
@@ -28,9 +28,9 @@ module.exports.getUserByEmail = (email) => {
 // have to update with imgUrl in table
 module.exports.getUserById = (id) => {
     const q = `
-    SELECT first, last, imgurl, bio
-    FROM users
-    WHERE id = $1
+        SELECT first, last, imgurl, bio
+        FROM users
+        WHERE id = $1
     `;
     const params = [id];
     return db.query(q, params);
@@ -48,11 +48,11 @@ module.exports.addCode = (email, dcode) => {
 
 module.exports.getCode = (email) => {
     const q = `
-    SELECT *
-    FROM resetcodes
-    WHERE user_email = $1
-    ORDER BY id DESC
-    LIMIT 1
+        SELECT *
+        FROM resetcodes
+        WHERE user_email = $1
+        ORDER BY id DESC
+        LIMIT 1
     `;
     const params = [email];
     return db.query(q, params);
@@ -60,9 +60,9 @@ module.exports.getCode = (email) => {
 
 module.exports.updatePass = (hashedpass, email) => {
     const q = `
-    UPDATE users
-    SET hashpass = $1
-    WHERE email = $2
+        UPDATE users
+        SET hashpass = $1
+        WHERE email = $2
     `;
     const params = [hashedpass, email];
     return db.query(q, params);
@@ -70,9 +70,9 @@ module.exports.updatePass = (hashedpass, email) => {
 
 module.exports.updateImg = (imgUrl, userId) => {
     const q = `
-    UPDATE users
-    SET imgurl = $1
-    WHERE id = $2
+        UPDATE users
+        SET imgurl = $1
+        WHERE id = $2
     `;
     const params = [imgUrl, userId];
     return db.query(q, params);
@@ -80,9 +80,9 @@ module.exports.updateImg = (imgUrl, userId) => {
 
 module.exports.updateBio = (bio, userId) => {
     const q = `
-    UPDATE users
-    SET bio = $1
-    WHERE id = $2
+        UPDATE users
+        SET bio = $1
+        WHERE id = $2
     `;
     const params = [bio, userId];
     return db.query(q, params);
@@ -90,20 +90,20 @@ module.exports.updateBio = (bio, userId) => {
 
 module.exports.getRecentUsers = () => {
     const q = `
-    SELECT *
-    FROM users
-    ORDER BY id DESC
-    LIMIT 5
+        SELECT *
+        FROM users
+        ORDER BY id DESC
+        LIMIT 5
     `;
     return db.query(q);
 };
 
 module.exports.getSearchUsers = (searchTerm) => {
     const q = `
-    SELECT *
-    FROM users
-    WHERE first ILIKE $1 OR last ILIKE $1
-    LIMIT 5
+        SELECT *
+        FROM users
+        WHERE first ILIKE $1 OR last ILIKE $1
+        LIMIT 5
     `;
     const params = [searchTerm + "%"];
     return db.query(q, params);
@@ -111,10 +111,10 @@ module.exports.getSearchUsers = (searchTerm) => {
 
 module.exports.getFriendship = (userId, otherId) => {
     const q = `
-    SELECT *
-    FROM friendships
-    WHERE (recipient_id = $1 AND sender_id = $2)
-    OR (recipient_id = $2 AND sender_id = $1);
+        SELECT *
+        FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1)
     `;
     const params = [userId, otherId];
     return db.query(q, params);
@@ -122,8 +122,8 @@ module.exports.getFriendship = (userId, otherId) => {
 
 module.exports.addFriend = (userId, otherId, accepted) => {
     const q = `
-    INSERT INTO friendships (sender_id, recipient_id, accepted)
-    VALUES ($1,$2,$3)
+        INSERT INTO friendships (sender_id, recipient_id, accepted)
+        VALUES ($1,$2,$3)
     `;
     const params = [userId, otherId, accepted];
     return db.query(q, params);
@@ -131,8 +131,8 @@ module.exports.addFriend = (userId, otherId, accepted) => {
 
 module.exports.cancelRequest = (userId, otherId) => {
     const q = `
-    DELETE FROM friendships
-    WHERE sender_id = $1 AND recipient_id = $2
+        DELETE FROM friendships
+        WHERE sender_id = $1 AND recipient_id = $2
     `;
     const params = [userId, otherId];
     return db.query(q, params);
@@ -140,9 +140,9 @@ module.exports.cancelRequest = (userId, otherId) => {
 
 module.exports.acceptRequest = (userId, otherId, accepted) => {
     const q = `
-    UPDATE friendships
-    SET accepted = $3
-    WHERE (sender_id = $2 AND recipient_id = $1)
+        UPDATE friendships
+        SET accepted = $3
+        WHERE (sender_id = $2 AND recipient_id = $1)
     `;
     const params = [userId, otherId, accepted];
     return db.query(q, params);
@@ -150,9 +150,9 @@ module.exports.acceptRequest = (userId, otherId, accepted) => {
 
 module.exports.removeFriend = (userId, otherId) => {
     const q = `
-    DELETE FROM friendships
-    WHERE (recipient_id = $1 AND sender_id = $2)
-    OR (recipient_id = $2 AND sender_id = $1); 
+        DELETE FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1); 
     `;
     const params = [userId, otherId];
     return db.query(q, params);
@@ -160,13 +160,13 @@ module.exports.removeFriend = (userId, otherId) => {
 
 module.exports.getFriendsWannabes = (userId) => {
     const q = `
-    SELECT users.id, first, last, imgurl, sender_id, accepted
-    FROM friendships
-    JOIN users
-    ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
-    OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
-    OR (accepted = true AND sender_id = $1 AND recipient_id  = users.id)
-    OR (accepted = false AND sender_id = $1 AND recipient_id  = users.id)
+        SELECT users.id, first, last, imgurl, sender_id, accepted
+        FROM friendships
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id  = users.id)
+        OR (accepted = false AND sender_id = $1 AND recipient_id  = users.id)
     `;
     // returns users that are friends + users who sent requests to me
     // does not include users to whom requests have been sent by me
@@ -175,5 +175,27 @@ module.exports.getFriendsWannabes = (userId) => {
     // OR (accepted = false AND sender_id = $1 AND recipient_id  = users.id)
 
     const params = [userId];
+    return db.query(q, params);
+};
+
+module.exports.getMessages = () => {
+    const q = `
+        SELECT users.first, users.last, users.imgurl, sender_id, msg, messages.id, messages.created_at
+        FROM messages
+        JOIN users
+        ON sender_id = users.id
+        ORDER BY messages.id DESC
+        LIMIT 10
+    `;
+    return db.query(q);
+};
+
+module.exports.addMessage = (sender_id, msg) => {
+    const q = `
+        INSERT INTO messages (sender_id, msg)
+        VALUES ($1, $2)
+        RETURNING created_at, id
+    `;
+    const params = [sender_id, msg];
     return db.query(q, params);
 };

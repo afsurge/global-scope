@@ -8,6 +8,7 @@ import OtherProfile from "./otherprofile";
 import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./findpeople";
 import Friends from "./friends";
+import Chat from "./chat";
 
 export default class App extends Component {
     constructor() {
@@ -86,6 +87,9 @@ export default class App extends Component {
                         <img id="logo" src="/net2.png" />
                     </a>
                     <div id="navbar">
+                        <a className="navlinks" href="/chat">
+                            CHAT
+                        </a>
                         <a className="navlinks" href="/friends">
                             PEOPLE
                         </a>
@@ -139,6 +143,7 @@ export default class App extends Component {
                         />
                         <Route path="/users" component={FindPeople} />
                         <Route path="/friends" component={Friends} />
+                        <Route path="/chat" component={Chat} />
                     </>
                 </BrowserRouter>
                 {this.state.showUploader && (

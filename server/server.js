@@ -45,12 +45,25 @@ const uploader = multer({
 
 //// middlewares ////
 
-app.use(
-    cookieSession({
-        secret: `I love to eat.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// modified cookie session with socket
+const cookieSessionMware = cookieSession({
+    secret: `I love to eat.`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+app.use(cookieSessionMware);
+io.use(function (socket, next) {
+    cookieSessionMware(socket.request, socket.request.res, next);
+});
+// old mware
+// app.use(
+//     cookieSession({
+//         secret: `I love to eat.`,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+
+// modified cookie session with socket
+
 app.use(csurf());
 app.use(function (req, res, next) {
     res.cookie("dtoken", req.csrfToken());
@@ -381,37 +394,6 @@ app.get("/friends.json", (req, res) => {
         });
 });
 
-// app.post("/friends/:id", (req, res) => {
-//     const userId = req.session.userId;
-//     const otherId = req.params.id;
-//     const action = req.body.action;
-//     console.log(`userId: ${userId}, otherId: ${otherId}, action: ${action}`);
-//     if (action == "accept") {
-//         db.acceptRequest(userId, otherId, true)
-//             .then(() => {
-//                 console.log("Friend accepted using Redux! 😀️");
-//                 res.json({ success: true });
-//             })
-//             .catch((err) => {
-//                 console.log(
-//                     "Error accepting request using Redux:",
-//                     err.message
-//                 );
-//             });
-//     }
-
-//     if (action == "remove") {
-//         db.removeFriend(userId, otherId)
-//             .then(() => {
-//                 console.log("Friend removed using Redux! 😢️");
-//                 res.json({ success: true });
-//             })
-//             .catch((err) => {
-//                 console.log("Error removing friend using Redux:", err.message);
-//             });
-//     }
-// });
-
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url
     if (req.session.userId) {
@@ -448,46 +430,51 @@ server.listen(process.env.PORT || 3001, function () {
 
 // has to be below listen for SN project
 io.on("connection", (socket) => {
-    console.log(`socket with id: ${socket.id} has connected!`);
-
-    // emit
-    // arg 1 - name of custom event that gets emitted
-    // arg 2 - data (obj) to send to client
-    socket.emit("hello", {
-        cohort: "Fennel",
-    });
-
-    socket.on("cool message", (data) => {
-        console.log("data from client:", data);
-    });
-
-    socket.on("helloWorld clicked", (data) => {
-        console.log(data);
-    });
-
-    // server may want to send messages to ALL connected sockets
-    io.emit("trying to talk to everyone", {
-        cohort: "fennel",
-    });
-
-    // send message to every socket EXCEPT your own
-    socket.broadcast.emit("hello to everyone except me", {
-        cohort: "fennel",
-    });
-
-    // send message to a specific socket (bonus: private msg for SN)
-    io.sockets.sockets.get(socket.id).emit("hello", {
-        message: "hi there, im trying to talk to only you!",
-    });
-
-    // send message to every socket EXCEPT one
-    io.sockets.sockets
-        .get(socket.id)
-        .broadcast.emit("excluding just a particular socket", {
-            message: "we r trying to plan a surprise!",
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    const userId = socket.request.session.userId;
+    db.getMessages()
+        .then(({ rows }) => {
+            // console.log("Last 10 messages:", rows.reverse());
+            socket.emit("chatMessages", rows.reverse());
+        })
+        .catch((err) => {
+            console.log("Error getting latest chat messages:", err.message);
         });
 
-    socket.on("disconnect", () => {
-        console.log(`socket with id: ${socket.id} just disconnected!`);
+    socket.on("chatMessage", (data) => {
+        console.log(`New chat msg by userId:${userId} with msg:${data}`);
+        db.addMessage(userId, data)
+            .then(({ rows }) => {
+                const created_at = rows[0].created_at;
+                const msg_id = rows[0].id;
+                console.log("Chat msg added to db!");
+                db.getUserById(userId)
+                    .then(({ rows }) => {
+                        console.log("Details of chat msg sender:", rows[0]);
+                        io.emit("chatMessage", {
+                            first: rows[0].first,
+                            last: rows[0].last,
+                            imgurl: rows[0].imgurl,
+                            id: msg_id,
+                            msg: data,
+                            created_at: created_at,
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(
+                            "Error getting details of chat msg sender:",
+                            err.message
+                        );
+                    });
+            })
+            .catch((err) => {
+                console.log("Error adding chat msg to db:", err.message);
+            });
     });
+
+    // console.log(
+    //     `socket with id:${socket.id} by userId:${userId} has connected!`
+    // );
 });

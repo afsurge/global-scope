@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 // import Registration from "./registration";
 import Welcome from "./welcome";
 import App from "./app";
+import { init } from "./socket";
 
 //// Redux ////
 import { createStore, applyMiddleware } from "redux";
@@ -22,7 +23,8 @@ let elem;
 if (location.pathname == "/welcome") {
     elem = <Welcome />;
 } else {
-    // elem = <img src="/icon.png" />;
+    init(store); // initializes socket if user logged in
+
     elem = (
         // Redux "Provider" wrap for App with "store" as props
         <Provider store={store}>
