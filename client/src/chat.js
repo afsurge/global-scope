@@ -47,7 +47,7 @@ export default function Chat() {
                                 ></img>
                                 <div className="chat-details">
                                     <h4 className="chat-user-time">
-                                        {user_msg.first} on{" "}
+                                        {user_msg.first} {user_msg.last} on{" "}
                                         {user_msg.created_at.slice(0, 10)} at{" "}
                                         {user_msg.created_at.slice(11, 16)}
                                     </h4>

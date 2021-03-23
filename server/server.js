@@ -409,6 +409,30 @@ app.get("/friends.json", (req, res) => {
         });
 });
 
+app.get("/deleteProfile", (req, res) => {
+    const userId = req.session.userId;
+    console.log("Want to delete profile of userId:", userId);
+
+    Promise.all([db.delFriendship(userId), db.delChats(userId)])
+        .then(() => {
+            db.delUser(userId)
+                .then(() => {
+                    console.log("All profile details removed successfully!");
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log(
+                        "Error deleting user from users table:",
+                        err.message
+                    );
+                    res.json({ success: false });
+                });
+        })
+        .catch((err) => {
+            "Error deleting frienship or chats:", err.message;
+        });
+});
+
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url
     if (req.session.userId) {
@@ -467,7 +491,7 @@ io.on("connection", (socket) => {
                 console.log("Chat msg added to db!");
                 db.getUserById(userId)
                     .then(({ rows }) => {
-                        console.log("Details of chat msg sender:", rows[0]);
+                        // console.log("Details of chat msg sender:", rows[0]);
                         io.emit("chatMessage", {
                             first: rows[0].first,
                             last: rows[0].last,

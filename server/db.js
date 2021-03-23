@@ -209,3 +209,31 @@ module.exports.getImgUrl = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+module.exports.delUser = (userId) => {
+    const q = `
+        DELETE FROM users
+        WHERE id = $1
+    `;
+    const params = [userId];
+    return db.query(q, params);
+};
+
+module.exports.delFriendship = (userId) => {
+    const q = `
+        DELETE FROM friendships
+        WHERE (sender_id = $1)
+        OR (recipient_id = $1) 
+    `;
+    const params = [userId];
+    return db.query(q, params);
+};
+
+module.exports.delChats = (userId) => {
+    const q = `
+        DELETE FROM messages
+        WHERE sender_id = $1
+    `;
+    const params = [userId];
+    return db.query(q, params);
+};
