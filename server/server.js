@@ -216,10 +216,25 @@ app.get("/user", (req, res) => {
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const userId = req.session.userId;
-    // console.log("profile pic uploaded by user id:", userId);
     const { filename } = req.file;
     const fullUrl = config.s3Url + filename;
     // console.log("fullUrl:", fullUrl);
+
+    db.getImgUrl(userId)
+        .then(({ rows }) => {
+            const imgToDelete = rows[0].imgurl;
+            console.log("imgUrl to delete and update:", imgToDelete);
+            const fileToDelete = imgToDelete.slice(36);
+            // console.log(
+            //     "filename of img to delete after upload:",
+            //     fileToDelete
+            // );
+            s3.delete(fileToDelete);
+        })
+        .catch((err) => {
+            console.log("Error getting previous profile pic:", err.message);
+        });
+
     db.updateImg(fullUrl, userId)
         .then(() => {
             console.log("profile pic link added to database!");

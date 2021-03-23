@@ -303,7 +303,7 @@ h4 {
 
 #chat-container {
     background-color: #d8dee9;
-    height: 550px;
+    height: 600px;
     width: 500px;
     overflow-y: auto;
 }
@@ -334,7 +334,7 @@ h4 {
 
 #chat-msg-editor {
     width: 500px;
-    height: 100px;
+    height: 80px;
     font-size: 1em;
     background-color: #4c566a;
     outline: none;

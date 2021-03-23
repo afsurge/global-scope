@@ -199,3 +199,13 @@ module.exports.addMessage = (sender_id, msg) => {
     const params = [sender_id, msg];
     return db.query(q, params);
 };
+
+module.exports.getImgUrl = (userId) => {
+    const q = `
+        SELECT imgurl 
+        FROM users
+        WHERE id = $1
+    `;
+    const params = [userId];
+    return db.query(q, params);
+};

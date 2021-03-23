@@ -14,13 +14,13 @@ export default function Chat() {
 
     useEffect(() => {
         console.log("scrollHeight:", elemRef.current.scrollHeight);
-        console.log("clientHeight:", elemRef.current.clientHeight);
-        console.log("scrollTop:", elemRef.current.scrollTop);
-        elemRef.current.scrollTop = 100;
-        // elemRef.current.scrollTop =
-        //     elemRef.current.scrollHeight - elemRef.current.clientHeight;
+        // console.log("clientHeight:", elemRef.current.clientHeight);
+        // console.log("scrollTop:", elemRef.current.scrollTop);
+        // elemRef.current.scrollTop = 100;
+        elemRef.current.scrollTop =
+            elemRef.current.scrollHeight - elemRef.current.clientHeight;
         console.log("new scrollTop:", elemRef.current.scrollTop);
-    }, []);
+    }, [chatMessages]);
 
     function sendChatMsg(e) {
         if (e.key == "Enter") {
