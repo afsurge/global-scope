@@ -18,7 +18,6 @@ export default function Profile(props) {
             .catch((err) => {
                 console.log("Error deleting user profile:", err.message);
             });
-        // location.replace("/logout");
     }
 
     return (
@@ -35,6 +34,7 @@ export default function Profile(props) {
                 updateBioInApp={(bio) => props.updateBioInApp(bio)}
             />
             <button
+                id="del-profile-button"
                 onClick={() => {
                     setDeleteConfirm(true);
                 }}
@@ -44,12 +44,15 @@ export default function Profile(props) {
             {deleteConfirm && (
                 <div id="deleter">
                     <div id="del-confirmer">
-                        <p>
+                        <h3>
                             Are you sure you want to completely delete your
                             account?
-                        </p>
-                        <button onClick={deleteProfile}>YES</button>
+                        </h3>
+                        <button id="del-yes" onClick={deleteProfile}>
+                            YES
+                        </button>
                         <button
+                            id="del-no"
                             onClick={() => {
                                 setDeleteConfirm(false);
                             }}

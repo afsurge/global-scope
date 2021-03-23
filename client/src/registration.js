@@ -58,10 +58,12 @@ export default class Registration extends React.Component {
             <div id="regForm">
                 <h1>Registration</h1>
                 <h3>
-                    Please provide the minimum details below for registering to
-                    the network.
+                    Please provide the minimum details for registering to the
+                    network.
                 </h3>
-                {this.state.error && <p>something went wrong!</p>}
+                {this.state.error && (
+                    <p className="error-msg">ERROR: PLEASE TRY AGAIN !</p>
+                )}
                 <input
                     name="first"
                     placeholder="first"

@@ -45,7 +45,9 @@ export default class Login extends React.Component {
                     Please enter your registered email and password below to
                     login to your profile.
                 </h3>
-                {this.state.error && <p>something went wrong!</p>}
+                {this.state.error && (
+                    <p className="error-msg">ERROR: PLEASE TRY AGAIN !</p>
+                )}
                 <input
                     name="email"
                     placeholder="email"

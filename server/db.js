@@ -237,3 +237,15 @@ module.exports.delChats = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+module.exports.getOtherFriends = (otherId) => {
+    const q = `
+        SELECT users.id, first, last, imgurl, accepted
+        FROM friendships
+        JOIN users
+        ON (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id  = users.id)
+    `;
+    const params = [otherId];
+    return db.query(q, params);
+};

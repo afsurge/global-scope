@@ -79,7 +79,7 @@ body {
 }
 
 .navlinks:hover {
-    background-color: #5e81ac;
+    background-color: #88c0d0;
     color: #2e3440;
     transition: all 500ms ease;
     align-items: center;
@@ -254,14 +254,16 @@ h4 {
 
 #friends,
 #wannabes,
-#wannahaves {
+#wannahaves,
+#otherFriends {
     display: flex;
     flex-wrap: wrap;
     margin: 35px 0px;
     /* justify-content: space-evenly; */
 }
 
-#friendsWannabes h2 {
+#friendsWannabes h2,
+#otherFriends h2 {
     margin: 0px;
     width: 150px;
 }
@@ -274,7 +276,8 @@ h4 {
 
 .friends,
 .wannabes,
-.wannahaves {
+.wannahaves,
+.otherFriend {
     margin: 0px 5px 0px 5px;
     display: flex;
     align-items: center;
@@ -287,7 +290,8 @@ h4 {
 
 .friends p,
 .wannabes p,
-.wannahaves p {
+.wannahaves p,
+.otherFriend p {
     font-size: 1.1em;
     margin: 0px;
     color: #88c0d0;
@@ -295,7 +299,8 @@ h4 {
 
 .friendppic,
 .wannabeppic,
-.wannahaveppic {
+.wannahaveppic,
+.otherfriendppic {
     height: 120px;
     width: 120px;
     object-fit: cover;
@@ -352,16 +357,57 @@ h4 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 98%;
     height: 75%;
     position: absolute;
 }
 
 #del-confirmer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
-    width: 450px;
+    width: 500px;
     height: 200px;
-    background-color: black;
+    background-color: #434c5e;
+    border: 2px solid darkred;
+    border-radius: 10px;
+}
+
+#del-profile-button {
+    height: 100px;
+    align-self: center;
+}
+
+#del-profile-button:hover {
+    background-color: darkred;
+    color: white;
+    border-radius: 50%;
+}
+
+#del-yes:hover {
+    background-color: darkred;
+}
+
+#del-yes,
+#del-no {
+    width: 200px;
+    align-self: center;
+}
+
+#del-no:hover {
+    background-color: green;
+}
+
+.other-friend-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: 10px;
+}
+
+.error-msg {
+    color: red;
 }
 
 /* .spiced {

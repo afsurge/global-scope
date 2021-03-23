@@ -433,6 +433,18 @@ app.get("/deleteProfile", (req, res) => {
         });
 });
 
+app.get("/otherFriends/:id", (req, res) => {
+    const otherId = req.params.id;
+    // console.log("id of otherFriend:", otherId);
+    db.getOtherFriends(otherId)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            "Error getting friends of otherId:", err.message;
+        });
+});
+
 app.get("/welcome", (req, res) => {
     // if user puts /welcome in url
     if (req.session.userId) {
