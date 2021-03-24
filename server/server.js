@@ -479,12 +479,49 @@ server.listen(process.env.PORT || 3001, function () {
 });
 //// listen ////
 
+let onlineUsers = {}; // for list of online users feature
 // has to be below listen for SN project
 io.on("connection", (socket) => {
-    if (!socket.request.session.userId) {
+    const userId = socket.request.session.userId;
+    if (!userId) {
         return socket.disconnect(true);
     }
-    const userId = socket.request.session.userId;
+
+    onlineUsers[socket.id] = userId; // stores socket id and userId pair for every socket connected
+    // console.log("onlineUsers after connect:", onlineUsers);
+
+    const userIds = Object.values(onlineUsers); // make array of only values of object onlineUsers
+    console.log("userIds connected:", userIds);
+    const userIdsNoRepeat = userIds.filter(
+        (id, index) => userIds.indexOf(id) === index
+    ); // filter out duplicate elements in array
+    console.log("filtered userIds connected (w/o repeats):", userIdsNoRepeat);
+
+    db.getUsersById(userIdsNoRepeat)
+        .then(({ rows }) => {
+            // console.log("Details of onlineUsers:", rows);
+            // emit onlineUsers to one socket that just joined
+            io.sockets.sockets.get(socket.id).emit("onlineUsers", rows);
+        })
+        .catch((err) => {
+            console.log("Error getting details of onlineUsers:", err.message);
+        });
+
+    db.getUserById(userId)
+        .then(({ rows }) => {
+            // console.log("Details of user just joined:", rows);
+            // emit details of new user just joined to everyone else already connected
+            io.sockets.sockets
+                .get(socket.id)
+                .broadcast.emit("userJoined", rows[0]);
+        })
+        .catch((err) => {
+            console.log(
+                "Error getting details of new user joined:",
+                err.message
+            );
+        });
+
     db.getMessages()
         .then(({ rows }) => {
             // console.log("Last 10 messages:", rows.reverse());
@@ -525,7 +562,32 @@ io.on("connection", (socket) => {
             });
     });
 
-    // console.log(
-    //     `socket with id:${socket.id} by userId:${userId} has connected!`
-    // );
+    console.log(
+        `socket with id:${socket.id} with userId:${userId} has connected!`
+    );
+
+    socket.on("disconnect", () => {
+        // console.log(
+        //     `socket with id:${socket.id} with userId:${userId} has DISCONNECTED!`
+        // );
+
+        var userIdDisconnected = onlineUsers[socket.id];
+        var userStillOnline = false;
+
+        delete onlineUsers[socket.id];
+
+        for (var socketId in onlineUsers) {
+            if (onlineUsers[socketId] == userIdDisconnected) {
+                userStillOnline = true;
+            }
+        }
+        console.log("userStillOnline:", userStillOnline);
+        if (!userStillOnline) {
+            console.log(
+                `userId: ${userIdDisconnected} left completely, finally!`
+            );
+            io.emit("userLeft", userIdDisconnected);
+        }
+        // console.log("onlineUsers after disconnect:", onlineUsers);
+    });
 });

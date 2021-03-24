@@ -28,7 +28,7 @@ module.exports.getUserByEmail = (email) => {
 // have to update with imgUrl in table
 module.exports.getUserById = (id) => {
     const q = `
-        SELECT first, last, imgurl, bio
+        SELECT id, first, last, imgurl, bio
         FROM users
         WHERE id = $1
     `;
@@ -247,5 +247,15 @@ module.exports.getOtherFriends = (otherId) => {
         OR (accepted = true AND sender_id = $1 AND recipient_id  = users.id)
     `;
     const params = [otherId];
+    return db.query(q, params);
+};
+
+module.exports.getUsersById = (arrayOfIds) => {
+    const q = `
+        SELECT id, first, last, imgurl
+        FROM users
+        WHERE id = ANY($1)
+    `;
+    const params = [arrayOfIds];
     return db.query(q, params);
 };

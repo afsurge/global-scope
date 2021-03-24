@@ -9,7 +9,6 @@ import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./findpeople";
 import Friends from "./friends";
 import Chat from "./chat";
-import OtherFriends from "./otherfriends";
 
 export default class App extends Component {
     constructor() {
@@ -141,12 +140,6 @@ export default class App extends Component {
                                         match={props.match}
                                         history={props.history}
                                     />
-                                    {/* <OtherFriends
-                                        match={props.match}
-                                        history={props.history}
-                                        first={this.state.first}
-                                        last={this.state.last}
-                                    /> */}
                                 </>
                             )}
                         />

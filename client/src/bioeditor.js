@@ -13,7 +13,7 @@ export default class BioEditor extends Component {
     }
 
     componentDidMount() {
-        console.log("Bio in BioEditor:", this.props.bio);
+        // console.log("Bio in BioEditor:", this.props.bio);
         if (this.props.bio) {
             this.setState({
                 buttonTxt: "EDIT",

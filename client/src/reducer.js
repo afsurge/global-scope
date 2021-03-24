@@ -51,6 +51,26 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type === "ONLINE_USERS") {
+        console.log("online users in network:", action.users);
+        state = { ...state, onlineUsers: action.users };
+    }
+
+    if (action.type === "USER_JOINED") {
+        console.log("user joined to network:", action.user);
+        state = { ...state, onlineUsers: [...state.onlineUsers, action.user] };
+    }
+
+    if (action.type === "USER_LEFT") {
+        console.log("user left from network:", action.user);
+        state = {
+            ...state,
+            onlineUsers: state.onlineUsers.filter(
+                (user) => user.id != action.user
+            ),
+        };
+    }
+
     console.log(`state in reducer for action "${action.type}":`, state);
     return state;
 }

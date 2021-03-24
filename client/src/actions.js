@@ -77,3 +77,27 @@ export function chatMessage(msg) {
         msg: msg,
     };
 }
+
+export function onlineUsersAct(onlineUsers) {
+    // console.log("onlineUsers action!");
+    return {
+        type: "ONLINE_USERS",
+        users: onlineUsers,
+    };
+}
+
+export function userJoinedAct(userJoined) {
+    // console.log("userJoined action!");
+    return {
+        type: "USER_JOINED",
+        user: userJoined,
+    };
+}
+
+export function userLeftAct(userLeft) {
+    // console.log("userLeft action!");
+    return {
+        type: "USER_LEFT",
+        user: userLeft,
+    };
+}
