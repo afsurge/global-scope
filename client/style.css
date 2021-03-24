@@ -194,7 +194,8 @@ button:hover {
     color: #88c0d0;
 }
 
-#findPeople {
+#findPeople,
+#online-users-container {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -212,7 +213,8 @@ button:hover {
     border: 2px solid #88c0d0;
 }
 
-.find-people-link {
+.find-people-link,
+.online-user-link {
     text-decoration: none;
 }
 

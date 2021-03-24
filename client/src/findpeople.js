@@ -60,12 +60,12 @@ export default function FindPeople() {
             {resultUsers &&
                 resultUsers.map(function (user) {
                     return (
-                        <>
+                        <div key={user.id}>
                             <Link
                                 className="find-people-link"
                                 to={`/user/${user.id}`}
                             >
-                                <div className="people" key={user.id}>
+                                <div className="people">
                                     <img
                                         className="userppic"
                                         src={user.imgurl}
@@ -75,7 +75,7 @@ export default function FindPeople() {
                                     </h2>
                                 </div>
                             </Link>
-                        </>
+                        </div>
                     );
                 })}
             <h3>Someone specific ?</h3>

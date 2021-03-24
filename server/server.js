@@ -492,6 +492,8 @@ io.on("connection", (socket) => {
 
     const userIds = Object.values(onlineUsers); // make array of only values of object onlineUsers
     console.log("userIds connected:", userIds);
+
+    //// onlineUsers with no repeat EMIT
     const userIdsNoRepeat = userIds.filter(
         (id, index) => userIds.indexOf(id) === index
     ); // filter out duplicate elements in array
@@ -507,20 +509,34 @@ io.on("connection", (socket) => {
             console.log("Error getting details of onlineUsers:", err.message);
         });
 
-    db.getUserById(userId)
-        .then(({ rows }) => {
-            // console.log("Details of user just joined:", rows);
-            // emit details of new user just joined to everyone else already connected
-            io.sockets.sockets
-                .get(socket.id)
-                .broadcast.emit("userJoined", rows[0]);
-        })
-        .catch((err) => {
-            console.log(
-                "Error getting details of new user joined:",
-                err.message
-            );
-        });
+    //// onlineUsers with no repeat EMIT
+
+    //// userJoined without duplicates EMIT
+    var idJoinedCount = 0;
+    userIds.forEach((id) => {
+        if (userId == id) {
+            idJoinedCount++;
+        }
+    });
+
+    if (idJoinedCount < 2) {
+        db.getUserById(userId)
+            .then(({ rows }) => {
+                // console.log("Details of user just joined:", rows);
+                // emit details of new user just joined to everyone else already connected
+                io.sockets.sockets
+                    .get(socket.id)
+                    .broadcast.emit("userJoined", rows[0]);
+            })
+            .catch((err) => {
+                console.log(
+                    "Error getting details of new user joined:",
+                    err.message
+                );
+            });
+    }
+
+    //// userJoined without duplicates EMIT
 
     db.getMessages()
         .then(({ rows }) => {
@@ -571,6 +587,7 @@ io.on("connection", (socket) => {
         //     `socket with id:${socket.id} with userId:${userId} has DISCONNECTED!`
         // );
 
+        //// userLeft only when completely left including tabs EMIT
         var userIdDisconnected = onlineUsers[socket.id];
         var userStillOnline = false;
 
@@ -588,6 +605,8 @@ io.on("connection", (socket) => {
             );
             io.emit("userLeft", userIdDisconnected);
         }
+        //// userLeft only when completely left including tabs EMIT
+
         // console.log("onlineUsers after disconnect:", onlineUsers);
     });
 });

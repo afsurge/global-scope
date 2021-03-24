@@ -9,6 +9,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./findpeople";
 import Friends from "./friends";
 import Chat from "./chat";
+import OnlineUsers from "./onlineusers";
 
 export default class App extends Component {
     constructor() {
@@ -90,6 +91,9 @@ export default class App extends Component {
                         <a className="navlinks" href="/chat">
                             CHAT
                         </a>
+                        <a className="navlinks" href="/online-users">
+                            ONLINE
+                        </a>
                         <a className="navlinks" href="/friends">
                             PEOPLE
                         </a>
@@ -146,6 +150,7 @@ export default class App extends Component {
                         <Route path="/users" component={FindPeople} />
                         <Route path="/friends" component={Friends} />
                         <Route path="/chat" component={Chat} />
+                        <Route path="/online-users" component={OnlineUsers} />
                     </>
                 </BrowserRouter>
                 {this.state.showUploader && (
