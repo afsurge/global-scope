@@ -11,12 +11,12 @@ Part10: done
 Additional:
     X - Deletion
     X - Other friends
-    - Online users
+    X - Online users
 
 MISC:
     X - Broken logo (icon.png) and close (X) for OtherProfile - Alistair fix by adding "/" in front in <img> src
     X - Link other users in /users to go to /user/id + mouse over effects
     X - top navbar for find people, friends, etc.
     X - CSS buttons on mouse over effects
-    - CSS!
+    X - CSS!
     

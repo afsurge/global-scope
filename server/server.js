@@ -491,7 +491,7 @@ io.on("connection", (socket) => {
     // console.log("onlineUsers after connect:", onlineUsers);
 
     const userIds = Object.values(onlineUsers); // make array of only values of object onlineUsers
-    console.log("userIds connected:", userIds);
+    // console.log("userIds connected:", userIds);
 
     //// onlineUsers with no repeat EMIT
     const userIdsNoRepeat = userIds.filter(

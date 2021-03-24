@@ -7,8 +7,11 @@ import ResetPassword from "./resetpass";
 export default function Welcome() {
     return (
         <div id="welcome">
-            <h1>WELCOME</h1>
-            <img id="welcome-logo" src="./net2.png" />
+            <div id="name-logo">
+                <p>GLOBAL</p>
+                <img id="welcome-logo" src="./net2.png" />
+                <p>SCOPE</p>
+            </div>
             <HashRouter>
                 <>
                     <Route exact path="/" component={Registration} />

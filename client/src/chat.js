@@ -62,6 +62,7 @@ export default function Chat() {
                 onKeyDown={sendChatMsg}
                 placeholder="Write your chat message here..."
             ></textarea>
+            <img id="chaton" src="/chaton.png" />
         </div>
     );
 }

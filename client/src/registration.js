@@ -7,6 +7,7 @@ export default class Registration extends React.Component {
         super();
         this.state = {
             error: false, // for error msgs, included in jsx <p>
+            agree: false,
         };
         // method1 binding
         // this.handleChange = this.handleChange.bind(this);
@@ -53,6 +54,14 @@ export default class Registration extends React.Component {
         // console.log("this.state after setState:", this.state);
     }
 
+    handleAgree() {
+        if (!this.state.agree) {
+            this.setState({ agree: true });
+        } else {
+            this.setState({ agree: false });
+        }
+    }
+
     render() {
         return (
             <div id="regForm">
@@ -85,7 +94,30 @@ export default class Registration extends React.Component {
                     type="password"
                     onChange={(e) => this.handleChange(e)}
                 />
-                <button onClick={() => this.handleClick()}>SIGN UP!</button>
+                <div id="agreement">
+                    <p>
+                        Please agree to our terms of data policy & cookies use.
+                        Since this is a random SOCIAL NETWORK website, your
+                        information can very well be misused. Nevertheless,
+                        Abrar is proven to be trustworthy & so you can go ahead
+                        & register.
+                    </p>
+                    <div>
+                        <input
+                            id="agree-check"
+                            type="checkbox"
+                            name="agreement"
+                            onClick={() => this.handleAgree()}
+                        />
+                        <label htmlFor="agreement">
+                            I AGREE TO THE TERMS (AT MY OWN RISK)
+                        </label>
+                    </div>
+                </div>
+                {this.state.agree && (
+                    <button onClick={() => this.handleClick()}>SIGN UP!</button>
+                )}
+
                 <Link to="/login">Already with us? Go to LOGIN</Link>
             </div>
         );
