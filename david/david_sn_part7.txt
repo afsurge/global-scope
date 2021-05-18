@@ -1,0 +1,27 @@
+Hooks - 15.03.21 - David
+
+- Hooks allow function components to be used where before class components were needed - share common behaviour among components w/o needing to pass from parent to child
+
+- Names must start with "use" - must be called from other func. or hooks - cannot be called from blocks e.g. if or loops
+
+- built-in hooks- useState, useEffect - example code use
+
+- const [greetee, setGreetee] = useState("World"); - best practice to name state and function (setState) like above in array
+
+- setGreetee async similar to setState before - Hello() func. runs everytime sth changes in component (rerender by React) e.g. when setGreetee() completes
+
+- useEffect() - func. works like ...DidMount(), ...DidUpdate(), ...WillUnmount() altogether - runs after component mounts and after every render there on
+
+- pass [arg] to useEffect if we want it to run only when one state changes instead of for any state change like ...DidUpdate - can have multiple useEffect for each state change
+
+- pass [] to useEffect to run only once at first render like ...DidMount() - usually should not use any state within this useEffect but might happen or need to - return func. within this useEffect to work as ...WillUnmount for clean up
+
+- example code of React way to avoid Albania, Algeria (async) issue like in Incremental Search
+
+- cannot return promise from useEffect - has to return func. - use iife to handle this situation
+
+- SN part7 - find people link - find specific people search - pattern matching
+
+- FindPeople func. component using hooks - useState, useEffect
+
+- Notes and sample code given
