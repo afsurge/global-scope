@@ -111,7 +111,7 @@ export default function Friends() {
                     })}
             </div>
             <div id="wannahaves">
-                <h2>PENDING</h2>
+                <h2>WANNAHAVES</h2>
                 {wannahaves &&
                     wannahaves.map((wannahave) => {
                         return (
