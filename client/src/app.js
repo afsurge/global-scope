@@ -1,5 +1,5 @@
 import { Component } from "react";
-//import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from "./axios";
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
