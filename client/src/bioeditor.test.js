@@ -1,6 +1,14 @@
 import BioEditor from "./bioeditor";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import axios from "./axios";
+
+jest.mock("./axios");
+
+axios.post.mockResolvedValue({
+    data: {
+        success: true,
+    },
+});
 
 test("ADD button is rendered when no Bio is passed", () => {
     const { container } = render(<BioEditor />);
@@ -26,4 +34,21 @@ test("textarea and SAVE button is rendered when ADD or EDIT button is clicked", 
     expect(container.querySelector("textarea")).toBeTruthy();
     expect(container.querySelectorAll("button").length).toBe(2);
     expect(container.querySelectorAll("button")[1].innerHTML).toBe("SAVE");
+});
+
+test("ajax request is made on clicking SAVE", async () => {
+    const { container } = render(<BioEditor />);
+
+    // click on ADD button when no bio is passed
+    fireEvent.click(container.querySelector("button"));
+
+    fireEvent.change(container.querySelector("textarea"), {
+        target: { value: "Good day!" },
+    });
+
+    fireEvent.click(container.querySelectorAll("button")[1]);
+
+    await waitFor(() => {
+        expect(container.querySelector("p").innerHTML).toBe("Good day!");
+    });
 });
