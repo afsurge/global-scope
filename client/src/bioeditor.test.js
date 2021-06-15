@@ -33,22 +33,25 @@ test("textarea and SAVE button is rendered when ADD or EDIT button is clicked", 
 
     expect(container.querySelector("textarea")).toBeTruthy();
     expect(container.querySelectorAll("button").length).toBe(2);
-    expect(container.querySelectorAll("button")[1].innerHTML).toBe("SAVE");
+    expect(container.querySelectorAll("button")[1].innerHTML).toBe("SAVE"); // [1] in array of buttons is SAVE
 });
 
-test("ajax request is made on clicking SAVE", async () => {
+test("ajax request is made and p tag updated with new bio on clicking SAVE", async () => {
     const { container } = render(<BioEditor />);
 
     // click on ADD button when no bio is passed
     fireEvent.click(container.querySelector("button"));
 
     fireEvent.change(container.querySelector("textarea"), {
-        target: { value: "Good day!" },
+        target: { value: "Testing bio add/update!" },
     });
 
+    // click SAVE button, [1] index in array of buttons below
     fireEvent.click(container.querySelectorAll("button")[1]);
 
     await waitFor(() => {
-        expect(container.querySelector("p").innerHTML).toBe("Good day!");
+        expect(container.querySelector("p").innerHTML).toBe(
+            "Testing bio add/update!"
+        );
     });
 });

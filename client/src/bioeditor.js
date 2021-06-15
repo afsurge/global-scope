@@ -40,7 +40,7 @@ export default class BioEditor extends Component {
     }
 
     updateBio() {
-        console.log("Bio to send to server:", this.state.bioDraft);
+        // console.log("Bio to send to server:", this.state.bioDraft);
 
         if (this.state.bioDraft == "") {
             return this.setState({ edit: false });
@@ -49,7 +49,7 @@ export default class BioEditor extends Component {
         axios
             .post("/bio", { bio: this.state.bioDraft })
             .then(({ data }) => {
-                console.log("Response from server after Bio update:", data);
+                // console.log("Response from server after Bio update:", data);
                 if (data.success) {
                     this.setState({
                         bioText: this.state.bioDraft,
