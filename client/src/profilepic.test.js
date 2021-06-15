@@ -24,18 +24,18 @@ test("img has correct alt attribute", () => {
     expect(container.querySelector("img").alt).toBe("Faisal");
 });
 
-test("onClick prop gets attached as event listener to img", () => {
+test("toggleUploader prop gets attached as event listener to img", () => {
     const toggleUploader = jest.fn();
 
     const { container } = render(
         <ProfilePic toggleUploader={toggleUploader} />
     );
 
-    console.log(toggleUploader.mock.calls);
+    console.log(toggleUploader.mock.calls.length);
 
     fireEvent.click(container.querySelector("img"));
-
+    fireEvent.click(container.querySelector("img"));
     fireEvent.click(container.querySelector("img"));
 
-    expect(toggleUploader.mock.calls.length).toBe(2);
+    expect(toggleUploader.mock.calls.length).toBe(3);
 });
