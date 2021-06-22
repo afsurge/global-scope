@@ -1,6 +1,5 @@
 import ProfilePic from "./profilepic";
 import { render, fireEvent } from "@testing-library/react";
-import { expect } from "@jest/globals";
 
 test("img has correct src when passed a url", () => {
     const { container } = render(<ProfilePic imgUrl="/snowyhusky.jpg" />);
@@ -31,11 +30,12 @@ test("toggleUploader prop gets attached as event listener to img", () => {
         <ProfilePic toggleUploader={toggleUploader} />
     );
 
-    console.log(toggleUploader.mock.calls.length);
+    console.log("Calls before fireEvents:", toggleUploader.mock.calls.length);
 
     fireEvent.click(container.querySelector("img"));
     fireEvent.click(container.querySelector("img"));
     fireEvent.click(container.querySelector("img"));
 
+    console.log("Calls after fireEvents:", toggleUploader.mock.calls.length);
     expect(toggleUploader.mock.calls.length).toBe(3);
 });
