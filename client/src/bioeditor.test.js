@@ -36,8 +36,9 @@ test("textarea and SAVE button is rendered when ADD or EDIT button is clicked", 
     expect(container.querySelectorAll("button")[1].innerHTML).toBe("SAVE"); // [1] in array of buttons is SAVE
 });
 
-test("ajax request is made and p tag updated with new bio on clicking SAVE", async () => {
-    const { container } = render(<BioEditor />);
+test("ajax request done, page updated with new bio and updateBioInApp called on SAVE click ", async () => {
+    const updateBioInApp = jest.fn();
+    const { container } = render(<BioEditor updateBioInApp={updateBioInApp} />);
 
     // click on ADD button when no bio is passed
     fireEvent.click(container.querySelector("button"));
@@ -54,4 +55,7 @@ test("ajax request is made and p tag updated with new bio on clicking SAVE", asy
             "Testing bio add/update!"
         );
     });
+
+    // test updateBioInApp call after ajax request success
+    expect(updateBioInApp.mock.calls.length).toBe(1);
 });
