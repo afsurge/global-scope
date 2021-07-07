@@ -1,11 +1,10 @@
 import { Component } from "react";
-// import { Link } from "react-router-dom";
 import axios from "./axios";
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import OtherProfile from "./otherprofile";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Link, Route } from "react-router-dom";
 import FindPeople from "./findpeople";
 import Friends from "./friends";
 import Chat from "./chat";
@@ -83,42 +82,42 @@ export default class App extends Component {
         }
         return (
             <div id="mainAppContainer">
-                <div className="appTop">
-                    <a id="logo-tag" href="/">
-                        <img id="logo" src="/net2.png" />
-                    </a>
-                    <div id="navbar">
-                        <a className="navlinks" href="/chat">
-                            CHAT
-                        </a>
-                        <a className="navlinks" href="/online-users">
-                            ONLINE
-                        </a>
-                        <a className="navlinks" href="/friends">
-                            PEOPLE
-                        </a>
-                        <a className="navlinks" href="/users">
-                            SEARCH
-                        </a>
-                        <a className="navlinks" href="/">
-                            PROFILE
-                        </a>
-                        <a className="navlinks" href="/logout">
-                            LOGOUT
-                        </a>
-                    </div>
-                </div>
-                <div id="greet-profile">
-                    <h1 id="greetuser">Hi {this.state.first}!</h1>
-                    <ProfilePic
-                        imgUrl={this.state.imgUrl}
-                        toggleUploader={this.toggleUploader}
-                        // class1="appTop"
-                        class2="smallppic"
-                    />
-                </div>
                 <BrowserRouter>
                     <>
+                        <div className="appTop">
+                            <Link id="logo-tag" to="/">
+                                <img id="logo" src="/net2.png" />
+                            </Link>
+                            <div id="navbar">
+                                <Link className="navlinks" to="/chat">
+                                    CHAT
+                                </Link>
+                                <Link className="navlinks" to="/online-users">
+                                    ONLINE
+                                </Link>
+                                <Link className="navlinks" to="/friends">
+                                    PEOPLE
+                                </Link>
+                                <Link className="navlinks" to="/users">
+                                    SEARCH
+                                </Link>
+                                <Link className="navlinks" to="/">
+                                    PROFILE
+                                </Link>
+                                <a className="navlinks" href="/logout">
+                                    LOGOUT
+                                </a>
+                            </div>
+                        </div>
+                        <div id="greet-profile">
+                            <h1 id="greetuser">Hi {this.state.first}!</h1>
+                            <ProfilePic
+                                imgUrl={this.state.imgUrl}
+                                toggleUploader={this.toggleUploader}
+                                // class1="appTop"
+                                class2="smallppic"
+                            />
+                        </div>
                         <Route
                             exact
                             path="/"
