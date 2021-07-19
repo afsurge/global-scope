@@ -93,7 +93,6 @@ export default class BioEditor extends Component {
                         SAVE
                     </button>
                 )}
-                {/* {!this.state.edit && <button>DELETE PROFILE</button>} */}
             </div>
         );
     }

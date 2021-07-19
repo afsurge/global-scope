@@ -12,8 +12,6 @@ export default function ProfilePic(props) {
                 alt={props.last}
                 onClick={props.toggleUploader}
             />
-            {/* <h3>First Name: {props.first}</h3>
-            <h3>Last Name: {props.last}</h3> */}
         </div>
     );
 }
